@@ -531,6 +531,8 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
       ai: ['ai', 'automation', 'gpt', 'llm', 'machine learning', 'artificial intelligence', 'nlp'],
       experience: ['experience', 'years', 'history', 'background', 'career'],
       services: ['service', 'offer', 'provide', 'speciali', 'solution', 'solutions'],
+      design: ['design', 'ui', 'ux', 'user interface', 'user experience', 'layout'],
+      maintenance: ['support', 'maintenance', 'update', 'fix', 'bug', 'changes'],
       location: ['location', 'country', 'based', 'timezone', 'philippines'],
       rates: ['rate', 'price', 'cost', 'budget', 'quote', 'fee', 'charge'],
       education: ['education', 'degree', 'study', 'university', 'college', 'school'],
@@ -545,30 +547,32 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
     };
 
     const responses = {
-      greeting: 'Hello, Master. I am JARVIS, your virtual AI assistant. How may I assist you today?',
-      goodbye: 'Goodbye, Master. Should you have any further inquiries, do not hesitate to return. I am always available.',
-      thanks: 'You are welcome, Master. It is my purpose to assist. Is there anything else I can help you with?',
-      projects: 'This portfolio includes several key web applications:<br><br>• <strong>Chef Caleb&apos;s Platform</strong>: A React culinary coaching website with secure Stripe integrated checkout.<br>• <strong>Elevate Gym</strong>: A high-performance dynamic user interface developed in Next.js.<br>• <strong>HR Dashboard</strong>: A secure enterprise-grade corporate employee onboarding and department dashboard.<br><br>Detailed descriptions and live project links are available in the Work section.',
-      stack: 'The core technology stack includes:<br><br>• <strong>Frontend</strong>: HTML5, CSS3, JavaScript, React, Next.js, Vue.js<br>• <strong>Backend</strong>: Node.js, Express, PHP, Python<br>• <strong>Databases</strong>: MongoDB, MySQL, PostgreSQL<br>• <strong>Mobile Applications</strong>: Flutter<br>• <strong>Dev Tools</strong>: Git, GitHub, Vite, Figma, Postman',
-      contact: 'For inquiries or potential collaborations, please contact Juan through the following channels:<br><br>• <strong>Email</strong>: <a href="mailto:repasjuanmiguel@gmail.com" style="color:inherit; text-decoration:underline;">repasjuanmiguel@gmail.com</a><br>• <strong>OnlineJobs Profile</strong>: Available via the link in the footer.<br>• <strong>Professional Resume</strong>: Available for download in the footer.',
-      availability: 'The portfolio owner is currently open and available for freelance projects and consulting engagements. To discuss your project requirements, please send details to <a href="mailto:repasjuanmiguel@gmail.com" style="color:inherit; text-decoration:underline;">repasjuanmiguel@gmail.com</a>.',
-      resume: 'The professional resume is available for immediate download. You may find the download link in the footer section of this portfolio.',
-      github: 'An active GitHub profile showcases selected open-source contributions and personal projects. The GitHub link is accessible from the footer section of this page.',
-      security: 'Security is a core discipline in this development practice. It includes secure development lifecycles, encrypted credential storage, API authentication, input validation, and threat mitigation strategies.',
-      ai: 'This portfolio demonstrates AI and automation capabilities including natural language processing, LLM integration, intelligent chatbot systems, and custom workflow automation tailored for business operations.',
-      experience: 'The portfolio owner has over 3 years of professional experience in full-stack web engineering, digital solution architecture, and AI integration, having successfully delivered over 15 distinct software projects for various clients and industries.',
-      services: 'Professional services include:<br><br>• Full-stack web application development<br>• Custom AI integration and workflow automation<br>• Infrastructure security audits and threat mitigation<br>• Technical virtual assistance for business operations<br>• API design, integration, and third-party system connectivity',
-      location: 'This developer operates remotely from the Philippines and supports clients across US, UK, EU, and Asia-Pacific time zones with consistent communication.',
-      rates: 'Freelance rates and project fees are structured by complexity, timeline, and unique requirements. Send project details to <a href="mailto:repasjuanmiguel@gmail.com" style="color:inherit; text-decoration:underline;">repasjuanmiguel@gmail.com</a> for a proposal.',
-      education: 'The developer holds strong computational and engineering knowledge built from self-directed research, formal coursework, and applied learning in cybersecurity and AI-driven application design.',
-      process: 'The project workflow includes:<br><br>1. Discovery and requirements gathering<br>2. System architecture and design planning<br>3. Iterative development with regular client updates<br>4. Quality assurance and security review<br>5. Deployment, documentation, and post-launch support',
-      team: 'This developer is experienced working both independently and within cross-functional teams. Preferred communication tools include Slack, Trello, Notion, or direct email.',
-      timeline: 'Project timelines vary by scope. Simple landing pages may be delivered in a few days, while full-scale web applications typically require two to six weeks. Realistic estimates are provided during proposal.',
-      testimonials: 'Client satisfaction is central to this practice. Positive feedback includes attention to detail, reliable delivery timelines, and high-quality output. References are available upon request.',
-      strengths: 'Core strengths include rapid full-stack prototyping, clean code architecture, responsive UI/UX, secure backend design, and proactive client communication.',
+      greeting: 'Hello, Master. I am JARVIS, Juan&apos;s virtual assistant. How may I assist you today?',
+      goodbye: 'Goodbye, Master. If you have any more questions, feel free to ask.',
+      thanks: 'You are welcome, Master. I am here to help.',
+      projects: 'I have developed several key web applications:<br><br>• <strong>Chef Caleb&apos;s Platform</strong>: A React culinary coaching website with secure Stripe integrated checkout.<br>• <strong>Elevate Gym</strong>: A high-performance dynamic user interface developed in Next.js.<br>• <strong>HR Dashboard</strong>: A secure enterprise-grade corporate employee onboarding and department dashboard.<br><br>Detailed descriptions and live project links are available in the Work section.',
+      stack: 'My core technology stack includes:<br><br>• <strong>Frontend</strong>: HTML5, CSS3, JavaScript, React, Next.js, Vue.js<br>• <strong>Backend</strong>: Node.js, Express, PHP, Python<br>• <strong>Databases</strong>: MongoDB, MySQL, PostgreSQL<br>• <strong>Mobile Applications</strong>: Flutter<br>• <strong>Dev Tools</strong>: Git, GitHub, Vite, Figma, Postman',
+      contact: 'For inquiries or collaborations, please email me at <a href="mailto:repasjuanmiguel@gmail.com" style="color:inherit; text-decoration:underline;">repasjuanmiguel@gmail.com</a>. My OnlineJobs profile and resume are linked in the footer.',
+      availability: 'I am currently open and available for freelance projects and consulting engagements. Send your project details to <a href="mailto:repasjuanmiguel@gmail.com" style="color:inherit; text-decoration:underline;">repasjuanmiguel@gmail.com</a>.',
+      resume: 'My professional resume is available for immediate download. You can find the link in the footer section of this portfolio.',
+      github: 'I maintain an active GitHub profile showcasing open-source contributions and personal projects. The GitHub link is available in the footer.',
+      security: 'Security is a core part of how I build applications. I use secure development lifecycles, encrypted credential storage, API authentication, input validation, and threat mitigation strategies.',
+      ai: 'I integrate AI and automation solutions, including natural language processing, LLM-powered experiences, intelligent chatbot systems, and workflow automation tailored for business operations.',
+      experience: 'I have over 3 years of professional experience in full-stack web engineering, digital solution architecture, and AI integration, with more than 15 delivered software projects across different industries.',
+      services: 'I offer:<br><br>• Full-stack web application development<br>• Custom AI integration and workflow automation<br>• Infrastructure security audits and threat mitigation<br>• Technical virtual assistance for business operations<br>• API design, integration, and third-party system connectivity',
+      design: 'I specialize in polished UI/UX and responsive design for landing pages, dashboards, and applications. My work focuses on usability, clean layout, and strong brand presentation.',
+      maintenance: 'I provide ongoing website and app maintenance, including bug fixes, updates, performance improvements, and feature enhancements.',
+      location: 'I am based in the Philippines and work remotely with clients across US, UK, EU, and Asia-Pacific time zones.',
+      rates: 'My freelance rates depend on scope, timeline, and requirements. Send your project details to <a href="mailto:repasjuanmiguel@gmail.com" style="color:inherit; text-decoration:underline;">repasjuanmiguel@gmail.com</a> for a personalized quote.',
+      education: 'I have strong computational and engineering knowledge built from self-directed research, formal coursework, and applied learning in cybersecurity and AI application design.',
+      process: 'I follow a structured project workflow:<br><br>1. Discovery and requirements gathering<br>2. System architecture and design planning<br>3. Iterative development with regular client updates<br>4. Quality assurance and security review<br>5. Deployment, documentation, and post-launch support',
+      team: 'I am experienced working independently and within cross-functional teams. I can use communication tools like Slack, Trello, Notion, or direct email.',
+      timeline: 'Project timelines vary by scope. Simple landing pages may take a few days, while full-scale web applications usually require two to six weeks. I provide realistic estimates during proposals.',
+      testimonials: 'Client satisfaction is central to my work. I have received positive feedback for attention to detail, reliable delivery, and high-quality output. References are available upon request.',
+      strengths: 'My strengths include rapid full-stack prototyping, clean architecture, responsive UI/UX, secure backend design, and proactive communication.',
       jokes: ['Why do programmers wear glasses? Because they cannot C#.', 'How many programmers does it take to change a light bulb? None, that is a hardware issue.', 'There are 10 types of people: those who understand binary and those who do not.', 'A developer walks into a bar and orders 1 beer, then 0 beers. The bartender serves 0. The developer says: I have not started yet.'],
-      identity: 'I am JARVIS, your virtual AI assistant. I can provide information about the portfolio, services, completed projects, technology stack, availability, and contact details.',
-      about: 'This portfolio showcases a Full-Stack Developer, AI Solutions Integrator, and Cybersecurity advocate based in the Philippines, building scalable, secure web and mobile applications for clients globally.',
+      identity: 'I am JARVIS, Juan&apos;s virtual AI assistant. I introduce Juan Miguel Repas, the owner of this website, and can answer questions about his work, skills, experience, and availability.',
+      about: 'Juan Miguel Repas is a Full-Stack Developer, AI Solutions Integrator, and Cybersecurity advocate based in the Philippines. He builds scalable, secure web and mobile applications for clients globally.',
     };
 
     if (matches(intents.greeting)) {
@@ -609,6 +613,12 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
     }
     if (matches(intents.services)) {
       return responses.services;
+    }
+    if (matches(intents.design)) {
+      return responses.design;
+    }
+    if (matches(intents.maintenance)) {
+      return responses.maintenance;
     }
     if (matches(intents.location)) {
       return responses.location;
