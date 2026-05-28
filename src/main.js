@@ -511,157 +511,140 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
   function getBotResponse(input) {
     const normalized = input.toLowerCase().trim();
 
-    // --- Easter Egg: Magic Word ---
-    if (normalized === 'magic word') {
-      return "Tanginamo.";
+    if (!normalized) {
+      return 'Please ask me a question, Master.';
     }
 
-    // --- Greetings (echoed back naturally) ---
-    if (/^(hello|hi|hy|hey|greetings|good morning|good afternoon|good evening|sup|what's up|howdy|yo|hiya)/.test(normalized)) {
-      const greetMap = {
-        'hello': 'Hello.',
-        'hi': 'Hi.',
-        'hy': 'Hy.',
-        'hey': 'Hey.',
-        'yo': 'Hello.',
-        'sup': 'Hello.',
-        'howdy': 'Hello.',
-        'hiya': 'Hi.',
-        'greetings': 'Greetings.',
-        'good morning': 'Good morning.',
-        'good afternoon': 'Good afternoon.',
-        'good evening': 'Good evening.',
-        "what's up": 'Hello.',
-      };
-      let echo = 'Hello.';
-      for (const key of Object.keys(greetMap)) {
-        if (normalized.startsWith(key)) { echo = greetMap[key]; break; }
-      }
-      return `${echo} I am JARVIS, the virtual assistant of Juan Miguel Repas. How may I assist you today?`;
-    }
+    const matches = (phrases) => phrases.some((phrase) => normalized.includes(phrase));
 
-    // --- Goodbye ---
-    if (normalized.includes('bye') || normalized.includes('goodbye') || normalized.includes('see you') || normalized.includes('take care') || normalized.includes('later')) {
-      return "Goodbye. Should you have any further inquiries, do not hesitate to return. I am always available.";
-    }
+    const intents = {
+      greeting: ['hello', 'hi', 'hy', 'hey', 'greetings', 'good morning', 'good afternoon', 'good evening', 'sup', "what's up", 'howdy', 'yo', 'hiya'],
+      goodbye: ['bye', 'goodbye', 'see you', 'later', 'take care'],
+      thanks: ['thank', 'thanks', 'appreciate', 'thx'],
+      projects: ['project', 'work', 'portfolio', 'built', 'developed', 'site', 'app', 'website'],
+      stack: ['stack', 'skill', 'skills', 'tech', 'technology', 'language', 'framework', 'tool'],
+      contact: ['contact', 'hire', 'email', 'freelance', 'reach', 'message', 'work with', 'collaborate'],
+      availability: ['available', 'availability', 'open', 'accept', 'taking'],
+      resume: ['resume', 'cv', 'curriculum'],
+      github: ['github', 'repository', 'repo', 'code', 'source'],
+      security: ['cyber', 'security', 'secure', 'hacking', 'vulnerability', 'penetration'],
+      ai: ['ai', 'automation', 'gpt', 'llm', 'machine learning', 'artificial intelligence', 'nlp'],
+      experience: ['experience', 'years', 'history', 'background', 'career'],
+      services: ['service', 'offer', 'provide', 'speciali', 'solution', 'solutions'],
+      location: ['location', 'country', 'based', 'timezone', 'philippines'],
+      rates: ['rate', 'price', 'cost', 'budget', 'quote', 'fee', 'charge'],
+      education: ['education', 'degree', 'study', 'university', 'college', 'school'],
+      process: ['process', 'workflow', 'approach', 'methodology', 'how do you work'],
+      team: ['team', 'collaborat', 'partner', 'together'],
+      timeline: ['timeline', 'deadline', 'how long', 'duration', 'delivery'],
+      testimonials: ['testimonial', 'review', 'feedback', 'client', 'opinion'],
+      strengths: ['strength', 'best at', 'strongest', 'good at', 'expert'],
+      jokes: ['joke', 'funny', 'humor', 'laugh'],
+      identity: ['who are you', 'what are you', 'jarvis', 'your name', 'introduce'],
+      about: ['about', 'juan', 'tell me more', 'who is'],
+    };
 
-    // --- Thank you ---
-    if (normalized.includes('thank') || normalized.includes('thanks') || normalized.includes('appreciate')) {
-      return "You are welcome. It is my purpose to assist. Is there anything else I can help you with?";
-    }
+    const responses = {
+      greeting: 'Hello, Master. I am JARVIS, your virtual AI assistant. How may I assist you today?',
+      goodbye: 'Goodbye, Master. Should you have any further inquiries, do not hesitate to return. I am always available.',
+      thanks: 'You are welcome, Master. It is my purpose to assist. Is there anything else I can help you with?',
+      projects: 'This portfolio includes several key web applications:<br><br>• <strong>Chef Caleb&apos;s Platform</strong>: A React culinary coaching website with secure Stripe integrated checkout.<br>• <strong>Elevate Gym</strong>: A high-performance dynamic user interface developed in Next.js.<br>• <strong>HR Dashboard</strong>: A secure enterprise-grade corporate employee onboarding and department dashboard.<br><br>Detailed descriptions and live project links are available in the Work section.',
+      stack: 'The core technology stack includes:<br><br>• <strong>Frontend</strong>: HTML5, CSS3, JavaScript, React, Next.js, Vue.js<br>• <strong>Backend</strong>: Node.js, Express, PHP, Python<br>• <strong>Databases</strong>: MongoDB, MySQL, PostgreSQL<br>• <strong>Mobile Applications</strong>: Flutter<br>• <strong>Dev Tools</strong>: Git, GitHub, Vite, Figma, Postman',
+      contact: 'For inquiries or potential collaborations, please contact Juan through the following channels:<br><br>• <strong>Email</strong>: <a href="mailto:repasjuanmiguel@gmail.com" style="color:inherit; text-decoration:underline;">repasjuanmiguel@gmail.com</a><br>• <strong>OnlineJobs Profile</strong>: Available via the link in the footer.<br>• <strong>Professional Resume</strong>: Available for download in the footer.',
+      availability: 'The portfolio owner is currently open and available for freelance projects and consulting engagements. To discuss your project requirements, please send details to <a href="mailto:repasjuanmiguel@gmail.com" style="color:inherit; text-decoration:underline;">repasjuanmiguel@gmail.com</a>.',
+      resume: 'The professional resume is available for immediate download. You may find the download link in the footer section of this portfolio.',
+      github: 'An active GitHub profile showcases selected open-source contributions and personal projects. The GitHub link is accessible from the footer section of this page.',
+      security: 'Security is a core discipline in this development practice. It includes secure development lifecycles, encrypted credential storage, API authentication, input validation, and threat mitigation strategies.',
+      ai: 'This portfolio demonstrates AI and automation capabilities including natural language processing, LLM integration, intelligent chatbot systems, and custom workflow automation tailored for business operations.',
+      experience: 'The portfolio owner has over 3 years of professional experience in full-stack web engineering, digital solution architecture, and AI integration, having successfully delivered over 15 distinct software projects for various clients and industries.',
+      services: 'Professional services include:<br><br>• Full-stack web application development<br>• Custom AI integration and workflow automation<br>• Infrastructure security audits and threat mitigation<br>• Technical virtual assistance for business operations<br>• API design, integration, and third-party system connectivity',
+      location: 'This developer operates remotely from the Philippines and supports clients across US, UK, EU, and Asia-Pacific time zones with consistent communication.',
+      rates: 'Freelance rates and project fees are structured by complexity, timeline, and unique requirements. Send project details to <a href="mailto:repasjuanmiguel@gmail.com" style="color:inherit; text-decoration:underline;">repasjuanmiguel@gmail.com</a> for a proposal.',
+      education: 'The developer holds strong computational and engineering knowledge built from self-directed research, formal coursework, and applied learning in cybersecurity and AI-driven application design.',
+      process: 'The project workflow includes:<br><br>1. Discovery and requirements gathering<br>2. System architecture and design planning<br>3. Iterative development with regular client updates<br>4. Quality assurance and security review<br>5. Deployment, documentation, and post-launch support',
+      team: 'This developer is experienced working both independently and within cross-functional teams. Preferred communication tools include Slack, Trello, Notion, or direct email.',
+      timeline: 'Project timelines vary by scope. Simple landing pages may be delivered in a few days, while full-scale web applications typically require two to six weeks. Realistic estimates are provided during proposal.',
+      testimonials: 'Client satisfaction is central to this practice. Positive feedback includes attention to detail, reliable delivery timelines, and high-quality output. References are available upon request.',
+      strengths: 'Core strengths include rapid full-stack prototyping, clean code architecture, responsive UI/UX, secure backend design, and proactive client communication.',
+      jokes: ['Why do programmers wear glasses? Because they cannot C#.', 'How many programmers does it take to change a light bulb? None, that is a hardware issue.', 'There are 10 types of people: those who understand binary and those who do not.', 'A developer walks into a bar and orders 1 beer, then 0 beers. The bartender serves 0. The developer says: I have not started yet.'],
+      identity: 'I am JARVIS, your virtual AI assistant. I can provide information about the portfolio, services, completed projects, technology stack, availability, and contact details.',
+      about: 'This portfolio showcases a Full-Stack Developer, AI Solutions Integrator, and Cybersecurity advocate based in the Philippines, building scalable, secure web and mobile applications for clients globally.',
+    };
 
-    // --- Projects ---
-    if (normalized.includes('project') || normalized.includes('work') || normalized.includes('portfolio') || normalized.includes('built') || normalized.includes('developed')) {
-      return "Juan has developed several key web applications:<br><br>• <strong>Chef Caleb's Platform</strong>: A React culinary coaching website with secure Stripe integrated checkout.<br>• <strong>Elevate Gym</strong>: A high-performance dynamic user interface developed in Next.js.<br>• <strong>HR Dashboard</strong>: A secure enterprise-grade corporate employee onboarding and department dashboard.<br><br>Detailed descriptions and live project links are available in the Work section.";
+    if (matches(intents.greeting)) {
+      return responses.greeting;
     }
-
-    // --- Tech Stack ---
-    if (normalized.includes('stack') || normalized.includes('skill') || normalized.includes('tech') || normalized.includes('language') || normalized.includes('framework') || normalized.includes('tool')) {
-      return "Juan's core technology stack includes:<br><br>• <strong>Frontend</strong>: HTML5, CSS3, JavaScript, React, Next.js, Vue.js<br>• <strong>Backend</strong>: Node.js, Express, PHP, Python<br>• <strong>Databases</strong>: MongoDB, MySQL, PostgreSQL<br>• <strong>Mobile Applications</strong>: Flutter<br>• <strong>Dev Tools</strong>: Git, GitHub, Vite, Figma, Postman";
+    if (matches(intents.goodbye)) {
+      return responses.goodbye;
     }
-
-    // --- Contact ---
-    if (normalized.includes('contact') || normalized.includes('hire') || normalized.includes('email') || normalized.includes('freelance') || normalized.includes('onlinejobs') || normalized.includes('reach') || normalized.includes('message')) {
-      return "For inquiries or potential collaborations, please contact Juan through the following channels:<br><br>• <strong>Email</strong>: <a href='mailto:repasjuanmiguel@gmail.com' style='color:inherit; text-decoration:underline;'>repasjuanmiguel@gmail.com</a><br>• <strong>OnlineJobs Profile</strong>: Available via the link in the footer.<br>• <strong>Professional Resume</strong>: Available for download in the footer.";
+    if (matches(intents.thanks)) {
+      return responses.thanks;
     }
-
-    // --- Availability ---
-    if (normalized.includes('available') || normalized.includes('availability') || normalized.includes('open') || normalized.includes('accept') || normalized.includes('taking')) {
-      return "Juan is currently open and available for freelance projects and consulting engagements. He accepts both short-term and long-term contracts. To discuss your project requirements, please send details to <a href='mailto:repasjuanmiguel@gmail.com' style='color:inherit; text-decoration:underline;'>repasjuanmiguel@gmail.com</a>.";
+    if (matches(intents.projects)) {
+      return responses.projects;
     }
-
-    // --- Resume / CV ---
-    if (normalized.includes('resume') || normalized.includes('cv') || normalized.includes('curriculum')) {
-      return "Juan's professional resume is available for immediate download. You may find the download link in the footer section of this portfolio.";
+    if (matches(intents.stack)) {
+      return responses.stack;
     }
-
-    // --- GitHub ---
-    if (normalized.includes('github') || normalized.includes('repository') || normalized.includes('repo') || normalized.includes('code')) {
-      return "Juan maintains an active GitHub profile where selected open-source contributions and personal projects are showcased. The GitHub link is accessible from the footer section of this page.";
+    if (matches(intents.contact)) {
+      return responses.contact;
     }
-
-    // --- Cybersecurity ---
-    if (normalized.includes('cyber') || normalized.includes('security') || normalized.includes('secure') || normalized.includes('hacking') || normalized.includes('vulnerability')) {
-      return "Security is a core discipline in Juan's development practice. He implements secure development lifecycles, encrypted credential storage, API authentication, input validation, and threat mitigation strategies across all systems he builds.";
+    if (matches(intents.availability)) {
+      return responses.availability;
     }
-
-    // --- AI and Automation ---
-    if (normalized.includes('ai') || normalized.includes('automation') || normalized.includes('gpt') || normalized.includes('llm') || normalized.includes('machine learning') || normalized.includes('artificial intelligence')) {
-      return "Juan integrates advanced AI and automation solutions, including natural language processing applications, large language model API configurations, intelligent chatbot systems, and custom workflow automation pipelines tailored for business operations.";
+    if (matches(intents.resume)) {
+      return responses.resume;
     }
-
-    // --- Experience ---
-    if (normalized.includes('experience') || normalized.includes('years') || normalized.includes('history') || normalized.includes('background') || normalized.includes('career')) {
-      return "Juan has over 3 years of professional experience in full-stack web engineering, digital solution architecture, and AI integration, having successfully delivered over 15 distinct software projects for a range of clients and industries.";
+    if (matches(intents.github)) {
+      return responses.github;
     }
-
-    // --- Services ---
-    if (normalized.includes('service') || normalized.includes('offer') || normalized.includes('provide') || normalized.includes('speciali')) {
-      return "Juan offers the following professional services:<br><br>• Full-stack web application development<br>• Custom AI integration and workflow automation<br>• Infrastructure security audits and threat mitigation<br>• Technical virtual assistance for business operations<br>• API design, integration, and third-party system connectivity";
+    if (matches(intents.security)) {
+      return responses.security;
     }
-
-    // --- Location ---
-    if (normalized.includes('location') || normalized.includes('country') || normalized.includes('where') || normalized.includes('based') || normalized.includes('philippines') || normalized.includes('timezone')) {
-      return "Juan is based in the Philippines and operates remotely, accommodating clients across international time zones including US, UK, EU, and Asia-Pacific regions with consistent and responsive communication.";
+    if (matches(intents.ai)) {
+      return responses.ai;
     }
-
-    // --- Rates / Pricing ---
-    if (normalized.includes('rate') || normalized.includes('price') || normalized.includes('cost') || normalized.includes('budget') || normalized.includes('quote') || normalized.includes('fee') || normalized.includes('charge')) {
-      return "Freelance rates and project fees are structured according to complexity, timeline, and unique requirements. To receive a formal project proposal and cost estimate, please send your project details to <a href='mailto:repasjuanmiguel@gmail.com' style='color:inherit; text-decoration:underline;'>repasjuanmiguel@gmail.com</a>.";
+    if (matches(intents.experience)) {
+      return responses.experience;
     }
-
-    // --- Education ---
-    if (normalized.includes('education') || normalized.includes('degree') || normalized.includes('study') || normalized.includes('university') || normalized.includes('college') || normalized.includes('school')) {
-      return "Juan holds strong computational and engineering knowledge built through rigorous self-directed research, formal coursework in software engineering principles, and advanced applied learning in cybersecurity and AI-driven application design.";
+    if (matches(intents.services)) {
+      return responses.services;
     }
-
-    // --- Process / Workflow ---
-    if (normalized.includes('process') || normalized.includes('workflow') || normalized.includes('approach') || normalized.includes('methodology') || normalized.includes('how do you work')) {
-      return "Juan follows a structured project workflow:<br><br>1. Discovery and requirements gathering<br>2. System architecture and design planning<br>3. Iterative development with regular client updates<br>4. Quality assurance and security review<br>5. Deployment, documentation, and post-launch support";
+    if (matches(intents.location)) {
+      return responses.location;
     }
-
-    // --- Collaboration / Team ---
-    if (normalized.includes('team') || normalized.includes('collaborat') || normalized.includes('partner') || normalized.includes('together') || normalized.includes('work with')) {
-      return "Juan is highly collaborative and has experience working within both independent freelance and cross-functional team environments. He adapts to client-preferred communication tools such as Slack, Trello, Notion, or direct email correspondence.";
+    if (matches(intents.rates)) {
+      return responses.rates;
     }
-
-    // --- Timeline / Deadline ---
-    if (normalized.includes('timeline') || normalized.includes('deadline') || normalized.includes('how long') || normalized.includes('duration') || normalized.includes('delivery')) {
-      return "Project timelines vary depending on scope and complexity. Simple landing pages may be delivered within a few days, while full-scale web applications typically require two to six weeks. Juan provides realistic delivery estimates during the proposal phase.";
+    if (matches(intents.education)) {
+      return responses.education;
     }
-
-    // --- Testimonials / Reviews ---
-    if (normalized.includes('testimonial') || normalized.includes('review') || normalized.includes('feedback') || normalized.includes('client') || normalized.includes('opinion')) {
-      return "Client satisfaction is central to Juan's professional practice. He has received consistent positive feedback for his attention to detail, reliable delivery timelines, and high-quality output. References and work samples are available upon request.";
+    if (matches(intents.process)) {
+      return responses.process;
     }
-
-    // --- Strengths ---
-    if (normalized.includes('strength') || normalized.includes('best at') || normalized.includes('strongest') || normalized.includes('good at') || normalized.includes('expert')) {
-      return "Juan's core professional strengths include rapid full-stack prototyping, clean and maintainable code architecture, responsive UI/UX implementation, secure backend design, and proactive client communication throughout the development process.";
+    if (matches(intents.team)) {
+      return responses.team;
     }
-
-    // --- Jokes ---
-    if (normalized.includes('joke') || normalized.includes('funny') || normalized.includes('humor') || normalized.includes('laugh')) {
-      const jokes = [
-        "Why do programmers wear glasses? Because they cannot C#.",
-        "How many programmers does it take to change a light bulb? None, that is a hardware issue.",
-        "There are 10 types of people in this world: Those who understand binary, and those who do not.",
-        "A developer walks into a bar and orders 1 beer, then 0 beers. The bartender serves 0. The developer says: I have not started yet."
-      ];
+    if (matches(intents.timeline)) {
+      return responses.timeline;
+    }
+    if (matches(intents.testimonials)) {
+      return responses.testimonials;
+    }
+    if (matches(intents.strengths)) {
+      return responses.strengths;
+    }
+    if (matches(intents.jokes)) {
+      const jokes = responses.jokes;
       return jokes[Math.floor(Math.random() * jokes.length)];
     }
-
-    // --- Identity ---
-    if (normalized.includes('who are you') || normalized.includes('what are you') || normalized.includes('jarvis') || normalized.includes('your name') || normalized.includes('introduce')) {
-      return "I am JARVIS, the virtual AI assistant of Juan Miguel Repas. I can provide information on his professional background, services, completed projects, technology stack, availability, and contact details.";
+    if (matches(intents.identity)) {
+      return responses.identity;
+    }
+    if (matches(intents.about)) {
+      return responses.about;
     }
 
-    // --- About Juan ---
-    if (normalized.includes('about') || normalized.includes('juan') || normalized.includes('tell me more') || normalized.includes('who is')) {
-      return "Juan Miguel Repas is a Full-Stack Developer, AI Solutions Integrator, and Cybersecurity advocate based in the Philippines. He builds scalable, secure, and high-performance web and mobile applications for clients across various industries globally.";
-    }
-
-    // --- Default fallback ---
-    return "I appreciate your message. That particular topic is outside my current knowledge parameters. For direct and comprehensive assistance, please reach out to Juan at <a href='mailto:repasjuanmiguel@gmail.com' style='color:inherit; text-decoration:underline;'>repasjuanmiguel@gmail.com</a>.";
+    return 'I appreciate your message, Master. That topic is outside my current knowledge. Try asking: "What technologies do you use?", "Tell me about your projects", or "How can I hire you?"';
   }
 }
