@@ -52,6 +52,7 @@ gsap.ticker.lagSmoothing(0)
 
 // --- Animations ---
 
+<<<<<<< HEAD
 // About Section Animations
 import { ScrollTrigger as ST } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ST);
@@ -113,6 +114,8 @@ window.setTheme = function (theme) {
   origSetTheme(theme);
   document.dispatchEvent(new Event('themechange'));
 };
+=======
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
 // 1. Hero Section Entrance Animation (plays after preloader)
 // Updated in preloader timeline below
 
@@ -138,6 +141,7 @@ gsap.to('.hero-photo-wrapper', {
   yPercent: 20,
   opacity: 0.3,
 })
+<<<<<<< HEAD
 // 1d. Projects Intro Animation
 gsap.from('.projects-intro-content > *', {
   scrollTrigger: {
@@ -151,6 +155,8 @@ gsap.from('.projects-intro-content > *', {
   duration: 0.8,
   ease: 'power3.out',
 });
+=======
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
 
 // 2. Horizontal Scroll Projects Section
 const projectsContainer = document.querySelector('.projects-container');
@@ -162,14 +168,23 @@ function setupProjectsAnimation() {
   // Kill all existing project animations
   gsap.killTweensOf(projectsContainer);
   ScrollTrigger.getAll().forEach(trigger => {
+<<<<<<< HEAD
     if (trigger.vars && (trigger.vars.trigger === projectsWrapper ||
       trigger.vars.trigger?.querySelector?.('.project-panel'))) {
+=======
+    if (trigger.vars && (trigger.vars.trigger === projectsWrapper || 
+        trigger.vars.trigger?.querySelector?.('.project-panel'))) {
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
       trigger.kill();
     }
   });
 
   const isDesktopLayout = window.matchMedia('(min-width: 901px)').matches;
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
   if (isDesktopLayout) {
     // Desktop: Horizontal scroll
     const scrollTween = gsap.to(projectsContainer, {
@@ -200,7 +215,11 @@ function setupProjectsAnimation() {
   } else {
     // Mobile: Vertical stack - make visible immediately
     gsap.set('.project-panel', { opacity: 1, y: 0 });
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
     // Optional: Add fade-in on scroll for mobile
     gsap.utils.toArray('.project-panel').forEach((panel, i) => {
       gsap.from(panel, {
@@ -414,6 +433,7 @@ window.addEventListener('scroll', () => {
   }
 });
 
+<<<<<<< HEAD
 // 10. About Section Animations
 // Bio text slides up smoothly
 gsap.from('.about-bio-text', {
@@ -441,6 +461,40 @@ gsap.from('.about-stats', {
   opacity: 0,
   duration: 0.9,
   ease: 'power3.out',
+=======
+// 9. Tech Stack Cards Staggered Reveal
+gsap.utils.toArray('.tech-card').forEach((card, i) => {
+  gsap.from(card, {
+    scrollTrigger: {
+      trigger: card,
+      start: 'top 90%',
+      toggleActions: 'play none none reverse'
+    },
+    opacity: 0,
+    y: 40,
+    scale: 0.9,
+    duration: 0.6,
+    delay: i * 0.05,
+    ease: 'power3.out'
+  });
+});
+
+// 10. About Section Animations
+// Slide in image and text
+gsap.from('.about-image-wrapper', {
+  scrollTrigger: { trigger: '.about', start: 'top 75%', toggleActions: 'play none none reverse' },
+  x: -60,
+  opacity: 0,
+  duration: 1,
+  ease: 'power3.out'
+});
+gsap.from('.about-text-wrapper', {
+  scrollTrigger: { trigger: '.about', start: 'top 75%', toggleActions: 'play none none reverse' },
+  x: 60,
+  opacity: 0,
+  duration: 1,
+  ease: 'power3.out'
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
 });
 
 // Animated counters
@@ -449,6 +503,7 @@ statNumbers.forEach(stat => {
   const target = parseInt(stat.getAttribute('data-target'));
   ScrollTrigger.create({
     trigger: stat,
+<<<<<<< HEAD
     start: 'top 88%',
     once: true,
     onEnter: () => {
@@ -462,6 +517,19 @@ statNumbers.forEach(stat => {
         },
       });
     },
+=======
+    start: 'top 85%',
+    once: true,
+    onEnter: () => {
+      gsap.to(stat, {
+        duration: 1.5,
+        ease: 'power2.out',
+        onUpdate: function () {
+          stat.textContent = Math.round(this.progress() * target);
+        }
+      });
+    }
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
   });
 });
 
@@ -470,6 +538,7 @@ gsap.utils.toArray('.service-card').forEach((card, i) => {
   gsap.from(card, {
     scrollTrigger: {
       trigger: '.about-services',
+<<<<<<< HEAD
       start: 'top 88%',
       toggleActions: 'play none none reverse',
     },
@@ -478,6 +547,16 @@ gsap.utils.toArray('.service-card').forEach((card, i) => {
     duration: 0.7,
     delay: i * 0.1,
     ease: 'power3.out',
+=======
+      start: 'top 85%',
+      toggleActions: 'play none none reverse'
+    },
+    opacity: 0,
+    y: 50,
+    duration: 0.7,
+    delay: i * 0.1,
+    ease: 'power3.out'
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
   });
 });
 
@@ -489,6 +568,7 @@ const chatbotInput = document.getElementById('chatbot-input');
 const chatbotMessages = document.getElementById('chatbot-messages');
 const chatOpenIcon = document.querySelector('.chat-open-icon');
 const chatCloseIcon = document.querySelector('.chat-close-icon');
+<<<<<<< HEAD
 const chatbotMuteBtn = document.getElementById('chatbot-mute-btn');
 const quickReplyChips = document.querySelectorAll('.quick-reply-chip');
 
@@ -544,12 +624,17 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
     });
   }
 
+=======
+
+if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMessages) {
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
   // Toggle chatbot visibility
   chatbotToggle.addEventListener('click', () => {
     const isActive = chatbotWindow.classList.toggle('active');
     if (isActive) {
       chatOpenIcon.style.display = 'none';
       chatCloseIcon.style.display = 'block';
+<<<<<<< HEAD
       setTimeout(() => chatbotInput.focus(), 300);
 
       // Feature 3: Send context message once per open session
@@ -577,10 +662,22 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
   });
 
   // Handle message send via form
+=======
+      // Auto focus input
+      setTimeout(() => chatbotInput.focus(), 300);
+    } else {
+      chatOpenIcon.style.display = 'block';
+      chatCloseIcon.style.display = 'none';
+    }
+  });
+
+  // Handle message send
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
   chatbotForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const userText = chatbotInput.value.trim();
     if (!userText) return;
+<<<<<<< HEAD
     chatbotInput.value = '';
     sendMessage(userText);
   });
@@ -613,13 +710,57 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
     contentDiv.className = 'message-content';
     contentDiv.innerHTML = text;
 
+=======
+
+    // Append user message
+    appendMessage(userText, 'user');
+    chatbotInput.value = '';
+
+    // Scroll to bottom
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+    // Show typing indicator
+    const typingBubble = appendTypingIndicator();
+    
+    // Simulate AI clone response after a short delay
+    setTimeout(() => {
+      // Remove typing indicator
+      typingBubble.remove();
+      
+      // Get AI response
+      const botResponse = getBotResponse(userText);
+      appendMessage(botResponse, 'bot');
+      
+      // Re-run Lucide icons in case response contains icons
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+      
+      // Scroll to bottom again
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }, 1000 + Math.random() * 600);
+  });
+
+  function appendMessage(text, sender) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `chat-message ${sender}`;
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+    contentDiv.innerHTML = text;
+    
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
     const timeSpan = document.createElement('span');
     timeSpan.className = 'message-time';
     const now = new Date();
     const hours = now.getHours().toString().padStart(2, '0');
     const mins = now.getMinutes().toString().padStart(2, '0');
     timeSpan.textContent = `${hours}:${mins}`;
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
     msgDiv.appendChild(contentDiv);
     msgDiv.appendChild(timeSpan);
     chatbotMessages.appendChild(msgDiv);
@@ -628,7 +769,11 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
   function appendTypingIndicator() {
     const msgDiv = document.createElement('div');
     msgDiv.className = 'chat-message bot typing-indicator';
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
     contentDiv.innerHTML = `
@@ -647,6 +792,7 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
   function getBotResponse(input) {
     const normalized = input.toLowerCase().trim();
 
+<<<<<<< HEAD
     // --- Easter Egg: Magic Word ---
     if (normalized === 'magic word') {
       return "Tanginamo.";
@@ -819,5 +965,152 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
       "I appreciate your curiosity. While I cannot process that specific request, I am fully equipped to discuss Juan's web development expertise and availability. How else may I assist you?"
     ];
     return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+=======
+    if (!normalized) {
+      return 'Please ask me a question, Master.';
+    }
+
+    const matches = (phrases) => phrases.some((phrase) => normalized.includes(phrase));
+
+    const intents = {
+      greeting: ['hello', 'hi', 'hy', 'hey', 'greetings', 'good morning', 'good afternoon', 'good evening', 'sup', "what's up", 'howdy', 'yo', 'hiya'],
+      goodbye: ['bye', 'goodbye', 'see you', 'later', 'take care'],
+      thanks: ['thank', 'thanks', 'appreciate', 'thx'],
+      projects: ['project', 'work', 'portfolio', 'built', 'developed', 'site', 'app', 'website'],
+      stack: ['stack', 'skill', 'skills', 'tech', 'technology', 'language', 'framework', 'tool'],
+      contact: ['contact', 'hire', 'email', 'freelance', 'reach', 'message', 'work with', 'collaborate'],
+      availability: ['available', 'availability', 'open', 'accept', 'taking'],
+      resume: ['resume', 'cv', 'curriculum'],
+      github: ['github', 'repository', 'repo', 'code', 'source'],
+      security: ['cyber', 'security', 'secure', 'hacking', 'vulnerability', 'penetration'],
+      ai: ['ai', 'automation', 'gpt', 'llm', 'machine learning', 'artificial intelligence', 'nlp'],
+      experience: ['experience', 'years', 'history', 'background', 'career'],
+      services: ['service', 'offer', 'provide', 'speciali', 'solution', 'solutions'],
+      design: ['design', 'ui', 'ux', 'user interface', 'user experience', 'layout'],
+      maintenance: ['support', 'maintenance', 'update', 'fix', 'bug', 'changes'],
+      location: ['location', 'country', 'based', 'timezone', 'philippines'],
+      rates: ['rate', 'price', 'cost', 'budget', 'quote', 'fee', 'charge'],
+      education: ['education', 'degree', 'study', 'university', 'college', 'school'],
+      process: ['process', 'workflow', 'approach', 'methodology', 'how do you work'],
+      team: ['team', 'collaborat', 'partner', 'together'],
+      timeline: ['timeline', 'deadline', 'how long', 'duration', 'delivery'],
+      testimonials: ['testimonial', 'review', 'feedback', 'client', 'opinion'],
+      strengths: ['strength', 'best at', 'strongest', 'good at', 'expert'],
+      jokes: ['joke', 'funny', 'humor', 'laugh'],
+      identity: ['who are you', 'what are you', 'jarvis', 'your name', 'introduce'],
+      about: ['about', 'juan', 'tell me more', 'who is'],
+    };
+
+    const responses = {
+      greeting: 'Hello, Master. I am JARVIS, Juan&apos;s virtual assistant. How may I assist you today?',
+      goodbye: 'Goodbye, Master. If you have any more questions, feel free to ask.',
+      thanks: 'You are welcome, Master. I am here to help.',
+      projects: 'I have developed several key web applications:<br><br>• <strong>Chef Caleb&apos;s Platform</strong>: A React culinary coaching website with secure Stripe integrated checkout.<br>• <strong>Elevate Gym</strong>: A high-performance dynamic user interface developed in Next.js.<br>• <strong>HR Dashboard</strong>: A secure enterprise-grade corporate employee onboarding and department dashboard.<br><br>Detailed descriptions and live project links are available in the Work section.',
+      stack: 'My core technology stack includes:<br><br>• <strong>Frontend</strong>: HTML5, CSS3, JavaScript, React, Next.js, Vue.js<br>• <strong>Backend</strong>: Node.js, Express, PHP, Python<br>• <strong>Databases</strong>: MongoDB, MySQL, PostgreSQL<br>• <strong>Mobile Applications</strong>: Flutter<br>• <strong>Dev Tools</strong>: Git, GitHub, Vite, Figma, Postman',
+      contact: 'For inquiries or collaborations, please email me at <a href="mailto:repasjuanmiguel@gmail.com" style="color:inherit; text-decoration:underline;">repasjuanmiguel@gmail.com</a>. My OnlineJobs profile and resume are linked in the footer.',
+      availability: 'I am currently open and available for freelance projects and consulting engagements. Send your project details to <a href="mailto:repasjuanmiguel@gmail.com" style="color:inherit; text-decoration:underline;">repasjuanmiguel@gmail.com</a>.',
+      resume: 'My professional resume is available for immediate download. You can find the link in the footer section of this portfolio.',
+      github: 'I maintain an active GitHub profile showcasing open-source contributions and personal projects. The GitHub link is available in the footer.',
+      security: 'Security is a core part of how I build applications. I use secure development lifecycles, encrypted credential storage, API authentication, input validation, and threat mitigation strategies.',
+      ai: 'I integrate AI and automation solutions, including natural language processing, LLM-powered experiences, intelligent chatbot systems, and workflow automation tailored for business operations.',
+      experience: 'I have over 3 years of professional experience in full-stack web engineering, digital solution architecture, and AI integration, with more than 15 delivered software projects across different industries.',
+      services: 'I offer:<br><br>• Full-stack web application development<br>• Custom AI integration and workflow automation<br>• Infrastructure security audits and threat mitigation<br>• Technical virtual assistance for business operations<br>• API design, integration, and third-party system connectivity',
+      design: 'I specialize in polished UI/UX and responsive design for landing pages, dashboards, and applications. My work focuses on usability, clean layout, and strong brand presentation.',
+      maintenance: 'I provide ongoing website and app maintenance, including bug fixes, updates, performance improvements, and feature enhancements.',
+      location: 'I am based in the Philippines and work remotely with clients across US, UK, EU, and Asia-Pacific time zones.',
+      rates: 'My freelance rates depend on scope, timeline, and requirements. Send your project details to <a href="mailto:repasjuanmiguel@gmail.com" style="color:inherit; text-decoration:underline;">repasjuanmiguel@gmail.com</a> for a personalized quote.',
+      education: 'I have strong computational and engineering knowledge built from self-directed research, formal coursework, and applied learning in cybersecurity and AI application design.',
+      process: 'I follow a structured project workflow:<br><br>1. Discovery and requirements gathering<br>2. System architecture and design planning<br>3. Iterative development with regular client updates<br>4. Quality assurance and security review<br>5. Deployment, documentation, and post-launch support',
+      team: 'I am experienced working independently and within cross-functional teams. I can use communication tools like Slack, Trello, Notion, or direct email.',
+      timeline: 'Project timelines vary by scope. Simple landing pages may take a few days, while full-scale web applications usually require two to six weeks. I provide realistic estimates during proposals.',
+      testimonials: 'Client satisfaction is central to my work. I have received positive feedback for attention to detail, reliable delivery, and high-quality output. References are available upon request.',
+      strengths: 'My strengths include rapid full-stack prototyping, clean architecture, responsive UI/UX, secure backend design, and proactive communication.',
+      jokes: ['Why do programmers wear glasses? Because they cannot C#.', 'How many programmers does it take to change a light bulb? None, that is a hardware issue.', 'There are 10 types of people: those who understand binary and those who do not.', 'A developer walks into a bar and orders 1 beer, then 0 beers. The bartender serves 0. The developer says: I have not started yet.'],
+      identity: 'I am JARVIS, Juan&apos;s virtual AI assistant. I introduce Juan Miguel Repas, the owner of this website, and can answer questions about his work, skills, experience, and availability.',
+      about: 'Juan Miguel Repas is a Full-Stack Developer, AI Solutions Integrator, and Cybersecurity advocate based in the Philippines. He builds scalable, secure web and mobile applications for clients globally.',
+    };
+
+    if (matches(intents.greeting)) {
+      return responses.greeting;
+    }
+    if (matches(intents.goodbye)) {
+      return responses.goodbye;
+    }
+    if (matches(intents.thanks)) {
+      return responses.thanks;
+    }
+    if (matches(intents.projects)) {
+      return responses.projects;
+    }
+    if (matches(intents.stack)) {
+      return responses.stack;
+    }
+    if (matches(intents.contact)) {
+      return responses.contact;
+    }
+    if (matches(intents.availability)) {
+      return responses.availability;
+    }
+    if (matches(intents.resume)) {
+      return responses.resume;
+    }
+    if (matches(intents.github)) {
+      return responses.github;
+    }
+    if (matches(intents.security)) {
+      return responses.security;
+    }
+    if (matches(intents.ai)) {
+      return responses.ai;
+    }
+    if (matches(intents.experience)) {
+      return responses.experience;
+    }
+    if (matches(intents.services)) {
+      return responses.services;
+    }
+    if (matches(intents.design)) {
+      return responses.design;
+    }
+    if (matches(intents.maintenance)) {
+      return responses.maintenance;
+    }
+    if (matches(intents.location)) {
+      return responses.location;
+    }
+    if (matches(intents.rates)) {
+      return responses.rates;
+    }
+    if (matches(intents.education)) {
+      return responses.education;
+    }
+    if (matches(intents.process)) {
+      return responses.process;
+    }
+    if (matches(intents.team)) {
+      return responses.team;
+    }
+    if (matches(intents.timeline)) {
+      return responses.timeline;
+    }
+    if (matches(intents.testimonials)) {
+      return responses.testimonials;
+    }
+    if (matches(intents.strengths)) {
+      return responses.strengths;
+    }
+    if (matches(intents.jokes)) {
+      const jokes = responses.jokes;
+      return jokes[Math.floor(Math.random() * jokes.length)];
+    }
+    if (matches(intents.identity)) {
+      return responses.identity;
+    }
+    if (matches(intents.about)) {
+      return responses.about;
+    }
+
+    return 'I appreciate your message, Master. That topic is outside my current knowledge. Try asking: "What technologies do you use?", "Tell me about your projects", or "How can I hire you?"';
+>>>>>>> 851f81791c94f13fc37c1a28821a686182d019f4
   }
 }
