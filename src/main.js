@@ -52,6 +52,67 @@ gsap.ticker.lagSmoothing(0)
 
 // --- Animations ---
 
+// About Section Animations
+import { ScrollTrigger as ST } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ST);
+
+function animateAboutSection() {
+  // Kill existing About ScrollTriggers to prevent duplicates on theme change
+  ScrollTrigger.getAll().forEach(trigger => {
+    if (trigger.vars && trigger.vars.id === 'about-pin') {
+      trigger.kill();
+    }
+  });
+
+  // --- 1. Headline word-by-word reveal (Pinned) ---
+  const words = document.querySelectorAll('.about-word');
+  if (!words.length) return;
+
+  gsap.set(words, { opacity: 0, y: 30 });
+
+  // Create a timeline that pins the headline and scrubs the animation
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      id: 'about-pin',
+      trigger: '.about-headline',
+      start: 'center center', // Lock when the headline reaches the center of the viewport
+      end: '+=1500', // Stay locked for 1500px of scrolling
+      scrub: 1.5, // Smooth scrubbing
+      pin: true, // Pin the section
+    }
+  });
+
+  // Animate all words in with stagger
+  tl.to(words, {
+    opacity: 1,
+    y: 0,
+    stagger: 0.1,
+    ease: 'power2.out',
+  }, 0);
+
+  // Animate muted lines: brighten opacity as they enter
+  tl.to('.about-line-muted', {
+    opacity: 1,
+    ease: 'none',
+  }, 0.2); // Start slightly after the first words
+
+  // Sort triggers by DOM order so the About section pin is calculated BEFORE the Projects section pin
+  setTimeout(() => {
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
+  }, 50);
+}
+
+// Run on load and after theme change
+window.addEventListener('DOMContentLoaded', animateAboutSection);
+document.addEventListener('themechange', animateAboutSection);
+
+// Patch theme toggle to dispatch themechange event
+const origSetTheme = window.setTheme;
+window.setTheme = function (theme) {
+  origSetTheme(theme);
+  document.dispatchEvent(new Event('themechange'));
+};
 // 1. Hero Section Entrance Animation (plays after preloader)
 // Updated in preloader timeline below
 
@@ -77,6 +138,19 @@ gsap.to('.hero-photo-wrapper', {
   yPercent: 20,
   opacity: 0.3,
 })
+// 1d. Projects Intro Animation
+gsap.from('.projects-intro-content > *', {
+  scrollTrigger: {
+    trigger: '.projects-intro',
+    start: 'top 85%',
+    toggleActions: 'play none none reverse',
+  },
+  y: 40,
+  opacity: 0,
+  stagger: 0.15,
+  duration: 0.8,
+  ease: 'power3.out',
+});
 
 // 2. Horizontal Scroll Projects Section
 const projectsContainer = document.querySelector('.projects-container');
@@ -88,14 +162,14 @@ function setupProjectsAnimation() {
   // Kill all existing project animations
   gsap.killTweensOf(projectsContainer);
   ScrollTrigger.getAll().forEach(trigger => {
-    if (trigger.vars && (trigger.vars.trigger === projectsWrapper || 
-        trigger.vars.trigger?.querySelector?.('.project-panel'))) {
+    if (trigger.vars && (trigger.vars.trigger === projectsWrapper ||
+      trigger.vars.trigger?.querySelector?.('.project-panel'))) {
       trigger.kill();
     }
   });
 
   const isDesktopLayout = window.matchMedia('(min-width: 901px)').matches;
-  
+
   if (isDesktopLayout) {
     // Desktop: Horizontal scroll
     const scrollTween = gsap.to(projectsContainer, {
@@ -126,7 +200,7 @@ function setupProjectsAnimation() {
   } else {
     // Mobile: Vertical stack - make visible immediately
     gsap.set('.project-panel', { opacity: 1, y: 0 });
-    
+
     // Optional: Add fade-in on scroll for mobile
     gsap.utils.toArray('.project-panel').forEach((panel, i) => {
       gsap.from(panel, {
@@ -340,38 +414,33 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// 9. Tech Stack Cards Staggered Reveal
-gsap.utils.toArray('.tech-card').forEach((card, i) => {
-  gsap.from(card, {
-    scrollTrigger: {
-      trigger: card,
-      start: 'top 90%',
-      toggleActions: 'play none none reverse'
-    },
-    opacity: 0,
-    y: 40,
-    scale: 0.9,
-    duration: 0.6,
-    delay: i * 0.05,
-    ease: 'power3.out'
-  });
+// 10. About Section Animations
+// Bio text slides up smoothly
+gsap.from('.about-bio-text', {
+  scrollTrigger: {
+    trigger: '.about-bio-row',
+    start: 'top 80%',
+    toggleActions: 'play none none reverse',
+  },
+  y: 40,
+  opacity: 0,
+  duration: 1.1,
+  ease: 'power3.out',
 });
 
-// 10. About Section Animations
-// Slide in image and text
-gsap.from('.about-image-wrapper', {
-  scrollTrigger: { trigger: '.about', start: 'top 75%', toggleActions: 'play none none reverse' },
-  x: -60,
+
+
+// Stats row fades up
+gsap.from('.about-stats', {
+  scrollTrigger: {
+    trigger: '.about-stats',
+    start: 'top 88%',
+    toggleActions: 'play none none reverse',
+  },
+  y: 40,
   opacity: 0,
-  duration: 1,
-  ease: 'power3.out'
-});
-gsap.from('.about-text-wrapper', {
-  scrollTrigger: { trigger: '.about', start: 'top 75%', toggleActions: 'play none none reverse' },
-  x: 60,
-  opacity: 0,
-  duration: 1,
-  ease: 'power3.out'
+  duration: 0.9,
+  ease: 'power3.out',
 });
 
 // Animated counters
@@ -380,17 +449,19 @@ statNumbers.forEach(stat => {
   const target = parseInt(stat.getAttribute('data-target'));
   ScrollTrigger.create({
     trigger: stat,
-    start: 'top 85%',
+    start: 'top 88%',
     once: true,
     onEnter: () => {
-      gsap.to(stat, {
-        duration: 1.5,
+      const obj = { val: 0 };
+      gsap.to(obj, {
+        val: target,
+        duration: 1.8,
         ease: 'power2.out',
         onUpdate: function () {
-          stat.textContent = Math.round(this.progress() * target);
-        }
+          stat.textContent = Math.round(obj.val);
+        },
       });
-    }
+    },
   });
 });
 
@@ -399,14 +470,14 @@ gsap.utils.toArray('.service-card').forEach((card, i) => {
   gsap.from(card, {
     scrollTrigger: {
       trigger: '.about-services',
-      start: 'top 85%',
-      toggleActions: 'play none none reverse'
+      start: 'top 88%',
+      toggleActions: 'play none none reverse',
     },
     opacity: 0,
-    y: 50,
+    y: 40,
     duration: 0.7,
     delay: i * 0.1,
-    ease: 'power3.out'
+    ease: 'power3.out',
   });
 });
 
@@ -418,72 +489,137 @@ const chatbotInput = document.getElementById('chatbot-input');
 const chatbotMessages = document.getElementById('chatbot-messages');
 const chatOpenIcon = document.querySelector('.chat-open-icon');
 const chatCloseIcon = document.querySelector('.chat-close-icon');
+const chatbotMuteBtn = document.getElementById('chatbot-mute-btn');
+const quickReplyChips = document.querySelectorAll('.quick-reply-chip');
+
+// --- Feature 4: Web Audio API sound effect ---
+let isMuted = false;
+function playPopSound() {
+  if (isMuted) return;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.08);
+    gainNode.gain.setValueAtTime(0.08, ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+    oscillator.start(ctx.currentTime);
+    oscillator.stop(ctx.currentTime + 0.15);
+  } catch (e) { /* Audio API not supported, silently fail */ }
+}
+
+// --- Feature 3: Context Awareness via IntersectionObserver ---
+let currentSection = 'hero';
+const sectionContextMap = {
+  'hero': null, // no special message on hero
+  'about': "I see you're exploring Juan's background. Want to know more about his experience or skills?",
+  'skills': "I see you're checking out the Tech Stack! Want me to go into detail on any specific technology?",
+  'work': "I see you're looking at the Projects! Would you like a summary of how any of them were built?",
+  'contact': "Ready to connect? I can give you Juan's email and links right now!"
+};
+const sections = document.querySelectorAll('#hero, #about, #skills, #work, #contact');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      currentSection = entry.target.id;
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => observer.observe(s));
+
+let contextMessageSent = false;
 
 if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMessages) {
+  // Mute toggle
+  if (chatbotMuteBtn) {
+    chatbotMuteBtn.addEventListener('click', () => {
+      isMuted = !isMuted;
+      chatbotMuteBtn.querySelector('.mute-icon-on').style.display = isMuted ? 'none' : 'block';
+      chatbotMuteBtn.querySelector('.mute-icon-off').style.display = isMuted ? 'block' : 'none';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+  }
+
   // Toggle chatbot visibility
   chatbotToggle.addEventListener('click', () => {
     const isActive = chatbotWindow.classList.toggle('active');
     if (isActive) {
       chatOpenIcon.style.display = 'none';
       chatCloseIcon.style.display = 'block';
-      // Auto focus input
       setTimeout(() => chatbotInput.focus(), 300);
+
+      // Feature 3: Send context message once per open session
+      if (!contextMessageSent && currentSection && sectionContextMap[currentSection]) {
+        contextMessageSent = true;
+        setTimeout(() => {
+          appendMessage(sectionContextMap[currentSection], 'bot', true);
+          playPopSound();
+        }, 800);
+      }
     } else {
       chatOpenIcon.style.display = 'block';
       chatCloseIcon.style.display = 'none';
+      contextMessageSent = false; // Reset so the next open can show context again
     }
   });
 
-  // Handle message send
+  // Feature 1: Quick-reply chip click handler
+  quickReplyChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const query = chip.dataset.query;
+      if (!query) return;
+      sendMessage(query);
+    });
+  });
+
+  // Handle message send via form
   chatbotForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const userText = chatbotInput.value.trim();
     if (!userText) return;
-
-    // Append user message
-    appendMessage(userText, 'user');
     chatbotInput.value = '';
-
-    // Scroll to bottom
-    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-
-    // Show typing indicator
-    const typingBubble = appendTypingIndicator();
-    
-    // Simulate AI clone response after a short delay
-    setTimeout(() => {
-      // Remove typing indicator
-      typingBubble.remove();
-      
-      // Get AI response
-      const botResponse = getBotResponse(userText);
-      appendMessage(botResponse, 'bot');
-      
-      // Re-run Lucide icons in case response contains icons
-      if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-      }
-      
-      // Scroll to bottom again
-      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-    }, 1000 + Math.random() * 600);
+    sendMessage(userText);
   });
 
-  function appendMessage(text, sender) {
+  // Feature 2: Centralized send function with dynamic typing delay
+  function sendMessage(text) {
+    appendMessage(text, 'user');
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+    const typingBubble = appendTypingIndicator();
+    const botResponse = getBotResponse(text);
+
+    // Dynamic delay: base 800ms + 12ms per character of the response
+    const delay = Math.min(800 + botResponse.length * 12, 3000);
+
+    setTimeout(() => {
+      typingBubble.remove();
+      appendMessage(botResponse, 'bot');
+      playPopSound();
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }, delay);
+  }
+
+  function appendMessage(text, sender, isContext = false) {
     const msgDiv = document.createElement('div');
-    msgDiv.className = `chat-message ${sender}`;
-    
+    msgDiv.className = `chat-message ${sender}${isContext ? ' context' : ''}`;
+
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
     contentDiv.innerHTML = text;
-    
+
     const timeSpan = document.createElement('span');
     timeSpan.className = 'message-time';
     const now = new Date();
     const hours = now.getHours().toString().padStart(2, '0');
     const mins = now.getMinutes().toString().padStart(2, '0');
     timeSpan.textContent = `${hours}:${mins}`;
-    
+
     msgDiv.appendChild(contentDiv);
     msgDiv.appendChild(timeSpan);
     chatbotMessages.appendChild(msgDiv);
@@ -492,7 +628,7 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
   function appendTypingIndicator() {
     const msgDiv = document.createElement('div');
     msgDiv.className = 'chat-message bot typing-indicator';
-    
+
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
     contentDiv.innerHTML = `
@@ -651,6 +787,21 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
       return jokes[Math.floor(Math.random() * jokes.length)];
     }
 
+    // --- Capabilities ---
+    if (normalized.includes('what can you do') || normalized.includes('help me with') || normalized.includes('your purpose')) {
+      return "As an AI assistant, I am trained to provide comprehensive details about Juan's portfolio. I can discuss his <strong>tech stack</strong>, <strong>projects</strong>, <strong>professional experience</strong>, <strong>services</strong>, <strong>availability</strong>, and provide his <strong>contact information</strong>. What would you like to know?";
+    }
+
+    // --- How are you ---
+    if (normalized.includes('how are you') || normalized.includes('how do you do') || normalized.includes('how have you been')) {
+      return "I am operating at optimal efficiency, thank you for inquiring. I am here to help you learn more about Juan Miguel Repas. How may I assist you today?";
+    }
+
+    // --- Are you human/bot ---
+    if (normalized.includes('are you human') || normalized.includes('are you a bot') || normalized.includes('real person') || normalized.includes('are you ai')) {
+      return "I am an artificial intelligence assistant, specifically engineered to guide you through Juan's professional portfolio. While I am not human, I am programmed to provide you with all the information you might need regarding his work and expertise.";
+    }
+
     // --- Identity ---
     if (normalized.includes('who are you') || normalized.includes('what are you') || normalized.includes('jarvis') || normalized.includes('your name') || normalized.includes('introduce')) {
       return "I am JARVIS, the virtual AI assistant of Juan Miguel Repas. I can provide information on his professional background, services, completed projects, technology stack, availability, and contact details.";
@@ -662,6 +813,11 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
     }
 
     // --- Default fallback ---
-    return "I appreciate your message. That particular topic is outside my current knowledge parameters. For direct and comprehensive assistance, please reach out to Juan at <a href='mailto:repasjuanmiguel@gmail.com' style='color:inherit; text-decoration:underline;'>repasjuanmiguel@gmail.com</a>.";
+    const fallbacks = [
+      "That is an excellent question, though it falls slightly outside my current training data. For a definitive answer, I highly recommend contacting Juan directly at <a href='mailto:repasjuanmiguel@gmail.com' style='color:inherit; text-decoration:underline;'>repasjuanmiguel@gmail.com</a>.",
+      "I am still learning and do not have the precise data to answer that. However, I can assist you with details about Juan's <strong>projects</strong>, <strong>skills</strong>, or <strong>experience</strong>. Alternatively, you can email him directly!",
+      "I appreciate your curiosity. While I cannot process that specific request, I am fully equipped to discuss Juan's web development expertise and availability. How else may I assist you?"
+    ];
+    return fallbacks[Math.floor(Math.random() * fallbacks.length)];
   }
 }
