@@ -1343,6 +1343,12 @@ section {
   padding: 0.5rem;
   z-index: 101;
   gap: 6px;
+  transition: opacity 0.3s ease;
+}
+
+.hamburger-menu.active {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hamburger-line {
@@ -1354,7 +1360,7 @@ section {
 }
 
 .hamburger-menu.active .hamburger-line:nth-child(1) {
-  transform: rotate(45deg) translate(10px, 10px);
+  transform: translateY(8.5px) rotate(45deg);
 }
 
 .hamburger-menu.active .hamburger-line:nth-child(2) {
@@ -1362,7 +1368,7 @@ section {
 }
 
 .hamburger-menu.active .hamburger-line:nth-child(3) {
-  transform: rotate(-45deg) translate(9px, -9px);
+  transform: translateY(-8.5px) rotate(-45deg);
 }
 
 /* Mobile Navigation Menu - Full Screen */
@@ -1388,9 +1394,9 @@ section {
   opacity: 0;
   visibility: hidden;
   transform: scale(0.95) translateY(-20px);
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              visibility 0.4s ease, 
-              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0.4s ease,
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
 }
 
@@ -1434,6 +1440,20 @@ section {
   stroke-width: 2.5;
 }
 
+@media (max-width: 768px) {
+  .menu-close-btn {
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 40px;
+    height: 40px;
+  }
+
+  .menu-close-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
 /* Menu Content Container */
 .mobile-nav-container {
   display: flex;
@@ -1447,7 +1467,7 @@ section {
 .mobile-nav-link {
   color: var(--text-primary);
   text-decoration: none;
-  font-size: 4rem;
+  font-size: clamp(2.5rem, 12vw, 4rem);
   font-weight: 800;
   padding: 1rem 2rem;
   border-radius: 0;
@@ -1519,6 +1539,7 @@ section {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1582,7 +1603,7 @@ section {
 }
 
 /* Hide header content when menu is active */
-.mobile-nav-menu.active ~ .site-header,
+.mobile-nav-menu.active~.site-header,
 body:has(.mobile-nav-menu.active) .site-header {
   z-index: 50;
   pointer-events: none;
@@ -2633,7 +2654,7 @@ body {
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              visibility 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    visibility 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   overflow: hidden;
 }
 
@@ -2922,11 +2943,11 @@ body {
 
 .scroll-top-btn {
   position: fixed;
-  bottom: 2.5rem;
-  left: 2.5rem;
+  bottom: 1.5rem;
+  left: 1.5rem;
   z-index: 998;
-  width: 52px;
-  height: 52px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: var(--text-primary);
   color: var(--bg-primary);
@@ -2939,7 +2960,7 @@ body {
   visibility: hidden;
   transform: translateY(20px);
   transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease, background 0.3s ease;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .scroll-top-btn.visible {
@@ -2950,11 +2971,11 @@ body {
 
 .scroll-top-btn:hover {
   background: var(--text-muted);
-  transform: translateY(-4px);
+  transform: translateY(-2px);
 }
 
 .scroll-top-btn svg {
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
   stroke-width: 2.5;
 }
