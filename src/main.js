@@ -291,21 +291,56 @@ const hamburgerMenu = document.getElementById('hamburger-menu');
 const mobileNavMenu = document.getElementById('mobile-nav-menu');
 const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+const menuCloseBtn = document.getElementById('menu-close-btn');
 
 function toggleMobileMenu() {
   hamburgerMenu.classList.toggle('active');
   mobileNavMenu.classList.toggle('active');
 }
 
+function closeMobileMenu() {
+  hamburgerMenu.classList.remove('active');
+  mobileNavMenu.classList.remove('active');
+}
+
 hamburgerMenu.addEventListener('click', toggleMobileMenu);
+
+// Close menu when close button is clicked
+if (menuCloseBtn) {
+  menuCloseBtn.addEventListener('click', closeMobileMenu);
+}
+
+// Close mobile menu when clicking outside (on the menu overlay)
+mobileNavMenu.addEventListener('click', (e) => {
+  if (e.target === mobileNavMenu) {
+    closeMobileMenu();
+  }
+});
 
 // Close mobile menu when a link is clicked
 mobileNavLinks.forEach(link => {
   link.addEventListener('click', () => {
-    hamburgerMenu.classList.remove('active');
-    mobileNavMenu.classList.remove('active');
+    closeMobileMenu();
   });
 });
+
+// ScrollSpy for mobile nav links
+const sectionsToSpy = document.querySelectorAll('section[id], footer[id]');
+const navSpyObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      mobileNavLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${id}`) {
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+sectionsToSpy.forEach(sec => navSpyObserver.observe(sec));
 
 // Mobile theme toggle
 if (mobileThemeToggle) {
@@ -688,7 +723,7 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
 
     // --- Projects ---
     if (normalized.includes('project') || normalized.includes('work') || normalized.includes('portfolio') || normalized.includes('built') || normalized.includes('developed')) {
-      return "Juan has developed several key web applications:<br><br>• <strong>Chef Caleb's Platform</strong>: A React culinary coaching website with secure Stripe integrated checkout.<br>• <strong>Elevate Gym</strong>: A high-performance dynamic user interface developed in Next.js.<br>• <strong>HR Dashboard</strong>: A secure enterprise-grade corporate employee onboarding and department dashboard.<br><br>Detailed descriptions and live project links are available in the Work section.";
+      return "Juan has developed 5 key web applications:<br><br>• <strong>APEX Performance Medicine</strong>: A premium concierge longevity and performance medicine website deployed on Vercel. Built with React and Tailwind CSS.<br>• <strong>Chef Caleb's Platform</strong>: A React culinary coaching website with a digital store and Stripe-integrated checkout.<br>• <strong>Elevate Gym</strong>: A high-performance fitness platform with class scheduling and membership management built in Next.js.<br>• <strong>HR Management System</strong>: A secure enterprise-grade internal employee onboarding and payroll dashboard built with PHP and MySQL.<br>• <strong>Booking System</strong>: A real-time reservation platform with automated confirmations.<br><br>Detailed documentation for each project is available in the Work section — just click the Documentation button on any project!";
     }
 
     // --- Tech Stack ---
@@ -699,6 +734,11 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
     // --- Contact ---
     if (normalized.includes('contact') || normalized.includes('hire') || normalized.includes('email') || normalized.includes('freelance') || normalized.includes('onlinejobs') || normalized.includes('reach') || normalized.includes('message')) {
       return "For inquiries or potential collaborations, please contact Juan through the following channels:<br><br>• <strong>Email</strong>: <a href='mailto:repasjuanmiguel@gmail.com' style='color:inherit; text-decoration:underline;'>repasjuanmiguel@gmail.com</a><br>• <strong>OnlineJobs Profile</strong>: Available via the link in the footer.<br>• <strong>Professional Resume</strong>: Available for download in the footer.";
+    }
+
+    // --- APEX Performance Medicine ---
+    if (normalized.includes('apex') || normalized.includes('performance medicine') || normalized.includes('longevity') || normalized.includes('wellness') || normalized.includes('medical')) {
+      return "APEX Performance Medicine is Juan's latest project — a premium concierge longevity and health optimization website. It features a cinematic hero section, detailed services showcase, and a consultation booking CTA, all built with React, Tailwind CSS, and deployed on Vercel. You can view it live at <a href='https://apex-performance-jmr.vercel.app/' target='_blank' style='color:inherit; text-decoration:underline;'>apex-performance-jmr.vercel.app</a>.";
     }
 
     // --- Availability ---
@@ -821,3 +861,238 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
     return fallbacks[Math.floor(Math.random() * fallbacks.length)];
   }
 }
+
+// =============================================
+// SCROLL TO TOP BUTTON
+// =============================================
+
+const scrollTopBtn = document.getElementById('scroll-top-btn');
+
+lenis.on('scroll', ({ scroll }) => {
+  if (scroll > 400) {
+    scrollTopBtn.classList.add('visible');
+  } else {
+    scrollTopBtn.classList.remove('visible');
+  }
+});
+
+scrollTopBtn.addEventListener('click', () => {
+  lenis.scrollTo(0, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+});
+
+if (typeof lucide !== 'undefined') lucide.createIcons();
+
+// =============================================
+// DOCUMENTATION MODAL
+// =============================================
+
+const projectDocs = {
+  apex: {
+    number: '01',
+    category: 'Health & Wellness',
+    title: 'APEX Performance Medicine',
+    subtitle: 'A premium concierge longevity and performance medicine website built for health-conscious individuals seeking advanced medical optimization.',
+    liveUrl: 'https://apex-performance-jmr.vercel.app/',
+    overview: 'APEX Performance Medicine is a high-end medical wellness brand website designed to convey trust, authority, and premium quality. The site is tailored for a concierge-style clientele who expect a seamless, sophisticated digital experience that matches the caliber of the services offered.',
+    tech: ['React', 'Tailwind CSS', 'Framer Motion', 'Vercel', 'Vite'],
+    features: [
+      'Premium hero section with bold typography and cinematic visuals',
+      'Detailed services showcase with smooth scroll animations',
+      'Consultation booking CTA with urgency-driven copy',
+      'Mobile-first responsive design across all breakpoints',
+      'Contact form integrated for patient inquiries',
+      'Dark luxury aesthetic matching the brand identity',
+      'Fast-loading and SEO-optimized for Google ranking',
+      'Custom scroll-triggered reveal animations',
+    ],
+    process: 'The project started with brand research and defining the visual language — dark backgrounds, gold accents, and clean typography to evoke trust and exclusivity. I built the site using React and Tailwind CSS with Framer Motion handling all scroll-triggered and entrance animations. The layout was designed mobile-first, then scaled up for desktop, with careful attention to white space and hierarchy. Deployed on Vercel for instant, globally distributed delivery.',
+    screenshots: [
+      '/PROJECTS/APEX PERFORMANCE/HERO SECTION.png',
+      '/PROJECTS/APEX PERFORMANCE/SERVICES.png',
+      '/PROJECTS/APEX PERFORMANCE/CONTACT.png',
+    ],
+  },
+  chefcaleb: {
+    number: '02',
+    category: 'E-Commerce & Coaching',
+    title: "Chef Caleb's Website",
+    subtitle: 'A complete culinary coaching platform with a digital product store, integrated checkout, and an automated countdown sale system.',
+    liveUrl: 'https://chefcalebweb.netlify.app',
+    overview: "Chef Caleb's Website is a full-stack culinary coaching platform designed to sell digital products, courses, and coaching sessions online. The platform includes a custom product store, a Stripe-powered checkout, and a countdown sale system that automatically activates and deactivates promotions.",
+    tech: ['React', 'Node.js', 'Stripe API', 'Netlify', 'MongoDB'],
+    features: [
+      'Custom digital product store with category filtering',
+      'Stripe payment integration for secure checkout',
+      'Automated countdown timer for flash sales',
+      'Admin dashboard for product and order management',
+      'Dynamic hero section with brand photography',
+      'Email confirmation for orders via NodeMailer',
+      'Responsive layout for mobile and desktop',
+      'SEO optimization for culinary niche keywords',
+    ],
+    process: "The platform was built in phases. First, the front-end React app was scaffolded with a clean, food-inspired design system. Then, a Node.js/Express backend was built to handle product CRUD, order processing, and Stripe webhooks. The automated countdown sale system uses a cron-job-like scheduler that checks sale dates and toggles promotional pricing dynamically. Deployed on Netlify (frontend) and a cloud server for the backend.",
+    screenshots: [
+      '/project_1.png',
+      '/project_1b.png',
+      '/project_1_new.png',
+    ],
+  },
+  elevategym: {
+    number: '03',
+    category: 'Fitness & Wellness',
+    title: 'Elevate Gym',
+    subtitle: 'A high-performance fitness platform interface designed for maximum user engagement with class scheduling and member management.',
+    liveUrl: 'https://elevategymweb.netlify.app',
+    overview: 'Elevate Gym is a feature-rich fitness platform UI built for a modern gym brand. It focuses on member engagement through a clean, energetic interface that showcases classes, trainer profiles, and membership tiers to drive sign-ups and retention.',
+    tech: ['Next.js', 'Tailwind CSS', 'MongoDB', 'Netlify'],
+    features: [
+      'Interactive class scheduling and booking system',
+      'Trainer profile pages with specialization details',
+      'Membership tier comparison and sign-up flow',
+      'Dynamic workout program showcase',
+      'Fitness progress tracking dashboard UI',
+      'Hero section with high-energy brand photography',
+      'Fully mobile-responsive across all screen sizes',
+      'Smooth page transitions and micro-animations',
+    ],
+    process: 'The design was inspired by premium fitness brands — bold typography, high-contrast colors, and strong imagery. Built with Next.js for server-side rendering and optimal performance, and Tailwind CSS for rapid, consistent styling. MongoDB handles member data and class schedules. The trainer profiles and class pages use dynamic routing for a scalable content structure.',
+    screenshots: [
+      '/project_2.png',
+      '/project_2b.png',
+      '/project_2c.png',
+    ],
+  },
+  hrsystem: {
+    number: '04',
+    category: 'Enterprise Dashboard',
+    title: 'HR Management System',
+    subtitle: 'An enterprise-grade internal dashboard for streamlining employee onboarding, payroll, and performance tracking across departments.',
+    liveUrl: null,
+    overview: 'This HR Management System is an internal enterprise tool built for a company to centralize and automate their HR workflows. It handles the complete employee lifecycle — from onboarding to payroll processing and performance reviews — across multiple departments.',
+    tech: ['PHP', 'MySQL', 'HTML5', 'CSS3', 'JavaScript'],
+    features: [
+      'Employee onboarding workflow with document management',
+      'Automated payroll calculation and generation',
+      'Performance review cycles with rating system',
+      'Department and team hierarchy management',
+      'Role-based access control (RBAC) for HR, managers, and employees',
+      'Leave and attendance tracking with calendar view',
+      'Reporting dashboard with exportable data (CSV/PDF)',
+      'Audit logs for compliance and data integrity',
+    ],
+    process: 'This was a complex enterprise project built with PHP on the backend and MySQL for relational data management. PHP handled all server-side logic — from employee CRUD operations to payroll calculation and session-based authentication. MySQL stored all relational data with normalized tables for employees, departments, payroll, and performance records. RBAC was implemented early to ensure data security across all user roles, with different views and permissions for HR admins, managers, and employees.',
+    screenshots: [
+      '/project_3.png',
+      '/project_3b.png',
+      '/project_3c.png',
+    ],
+  },
+  booking: {
+    number: '05',
+    category: 'Service Platform',
+    title: 'Booking System',
+    subtitle: 'A comprehensive booking and reservation platform for service-based businesses with real-time availability and automated confirmations.',
+    liveUrl: null,
+    overview: 'The Booking System is a full-featured reservation platform designed for service-based businesses. It allows customers to browse available time slots, book appointments, and receive automated confirmation emails — all in a seamless, self-service flow.',
+    tech: ['JavaScript', 'HTML5', 'CSS3', 'Node.js', 'Firebase'],
+    features: [
+      'Real-time availability calendar with slot management',
+      'Customer self-service appointment booking',
+      'Automated email confirmations via SendGrid',
+      'Admin panel for managing bookings and availability',
+      'Cancellation and rescheduling system',
+      'Business hours and holiday configuration',
+      'SMS notification integration',
+      'Mobile-first responsive interface',
+    ],
+    process: 'The booking system was built with vanilla JavaScript on the front-end for speed and simplicity, with a Node.js backend managing the scheduling logic and Firebase Firestore for real-time data sync. The availability algorithm checks for conflicts in real-time so double-bookings are impossible. Email confirmations are sent automatically using SendGrid webhooks on booking confirmation and cancellation events.',
+    screenshots: [
+      '/PROJECTS/BOOKING SYSTEM/Screenshot 2026-05-27 195839.png',
+      '/PROJECTS/BOOKING SYSTEM/Screenshot 2026-05-27 195852.png',
+      '/PROJECTS/BOOKING SYSTEM/Screenshot 2026-05-27 195903.png',
+    ],
+  },
+};
+
+// DOM references
+const docsModal = document.getElementById('docs-modal');
+const docsModalClose = document.getElementById('docs-modal-close');
+const docsModalNumber = document.getElementById('docs-modal-number');
+const docsModalCategory = document.getElementById('docs-modal-category');
+const docsModalTitle = document.getElementById('docs-modal-title');
+const docsModalSubtitle = document.getElementById('docs-modal-subtitle');
+const docsModalLinks = document.getElementById('docs-modal-links');
+const docsOverview = document.getElementById('docs-overview');
+const docsTechList = document.getElementById('docs-tech-list');
+const docsFeaturesList = document.getElementById('docs-features-list');
+const docsProcess = document.getElementById('docs-process');
+const docsScreenshots = document.getElementById('docs-screenshots');
+
+function openDocsModal(projectId) {
+  const data = projectDocs[projectId];
+  if (!data) return;
+
+  // Populate content
+  docsModalNumber.textContent = data.number;
+  docsModalCategory.textContent = data.category;
+  docsModalTitle.textContent = data.title;
+  docsModalSubtitle.textContent = data.subtitle;
+
+  // Links
+  docsModalLinks.innerHTML = '';
+  if (data.liveUrl) {
+    docsModalLinks.innerHTML += `<a href="${data.liveUrl}" target="_blank"><i data-lucide="arrow-up-right"></i> View Live Site</a>`;
+  } else {
+    docsModalLinks.innerHTML += `<a href="#" style="opacity:0.5; pointer-events:none;"><i data-lucide="lock"></i> Internal / Coming Soon</a>`;
+  }
+
+  // Overview
+  docsOverview.textContent = data.overview;
+
+  // Tech
+  docsTechList.innerHTML = data.tech.map(t => `<span>${t}</span>`).join('');
+
+  // Features
+  docsFeaturesList.innerHTML = data.features.map(f => `<li>${f}</li>`).join('');
+
+  // Process
+  docsProcess.textContent = data.process;
+
+  // Screenshots
+  docsScreenshots.innerHTML = data.screenshots.map(src => `<img src="${src}" alt="Screenshot" loading="lazy" />`).join('');
+
+  // Activate modal
+  docsModal.classList.add('active');
+  docsModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  lenis.stop();
+
+  // Re-init lucide icons inside modal
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function closeDocsModal() {
+  docsModal.classList.remove('active');
+  docsModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  lenis.start();
+}
+
+// Attach to doc buttons
+document.querySelectorAll('.doc-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const projectId = btn.getAttribute('data-project-id');
+    openDocsModal(projectId);
+  });
+});
+
+// Close button
+docsModalClose.addEventListener('click', closeDocsModal);
+
+// Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && docsModal.classList.contains('active')) {
+    closeDocsModal();
+  }
+});

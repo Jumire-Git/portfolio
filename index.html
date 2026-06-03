@@ -49,14 +49,23 @@
     </button>
     <!-- Mobile Navigation Menu -->
     <nav class="mobile-nav-menu" id="mobile-nav-menu">
-      <a href="#work" class="mobile-nav-link">Work</a>
-      <a href="#about" class="mobile-nav-link">About</a>
-      <a href="#contact" class="mobile-nav-link">Contact</a>
-      <div class="mobile-nav-separator"></div>
-      <button id="mobile-theme-toggle" class="mobile-theme-btn" aria-label="Toggle Theme">
-        <i data-lucide="sun" class="sun-icon"></i>
-        <span>Toggle Theme</span>
+      <!-- Close Button -->
+      <button class="menu-close-btn" id="menu-close-btn" aria-label="Close Menu">
+        <i data-lucide="x"></i>
       </button>
+      
+      <div class="mobile-nav-container">
+        <a href="#work" class="mobile-nav-link" data-section="work">Work</a>
+        <a href="#about" class="mobile-nav-link" data-section="about">About</a>
+        <a href="#contact" class="mobile-nav-link" data-section="contact">Contact</a>
+        
+        <div class="mobile-nav-separator"></div>
+        
+        <button id="mobile-theme-toggle" class="mobile-theme-btn" aria-label="Toggle Theme">
+          <i data-lucide="sun" class="sun-icon"></i>
+          <span>Toggle Theme</span>
+        </button>
+      </div>
     </nav>
   </header>
 
@@ -256,6 +265,34 @@
         <div class="project-panel">
           <div class="project-info">
             <h2>01</h2>
+            <h3>APEX Performance Medicine</h3>
+            <p>APEX Performance Medicine is a premium concierge longevity and performance medicine website designed for health-conscious individuals seeking advanced medical optimization.</p>
+            <div class="project-tech">
+              <span>React</span>
+              <span>Tailwind</span>
+              <span>Vercel</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://apex-performance-jmr.vercel.app/" target="_blank" class="magnetic project-btn">
+                <span>View Live Site</span>
+                <i data-lucide="arrow-up-right"></i>
+              </a>
+              <a href="#" class="magnetic project-btn secondary doc-btn" data-project-id="apex">
+                <span>Documentation</span>
+                <i data-lucide="file-text"></i>
+              </a>
+            </div>
+          </div>
+          <div class="project-img-wrapper">
+            <img src="/PROJECTS/APEX PERFORMANCE/HERO SECTION.png" alt="APEX Performance Hero" class="project-img img-main" />
+            <img src="/PROJECTS/APEX PERFORMANCE/SERVICES.png" alt="APEX Performance Services" class="project-img img-sub-1" />
+            <img src="/PROJECTS/APEX PERFORMANCE/CONTACT.png" alt="APEX Performance Contact" class="project-img img-sub-2" />
+          </div>
+        </div>
+        <!-- Project 2 -->
+        <div class="project-panel">
+          <div class="project-info">
+            <h2>02</h2>
             <h3>Chef Caleb's Website</h3>
             <p>A complete culinary coaching platform featuring a custom digital product store, integrated checkout, and
               an automated countdown sale system to drive conversions.</p>
@@ -269,6 +306,10 @@
                 <span>View Live Site</span>
                 <i data-lucide="arrow-up-right"></i>
               </a>
+              <a href="#" class="magnetic project-btn secondary doc-btn" data-project-id="chefcaleb">
+                <span>Documentation</span>
+                <i data-lucide="file-text"></i>
+              </a>
             </div>
           </div>
           <div class="project-img-wrapper">
@@ -277,10 +318,10 @@
             <img src="/project_1_new.png" alt="Chef Caleb Contact Page" class="project-img img-sub-2" />
           </div>
         </div>
-        <!-- Project 2 -->
+        <!-- Project 3 -->
         <div class="project-panel">
           <div class="project-info">
-            <h2>02</h2>
+            <h2>03</h2>
             <h3>Elevate Gym</h3>
             <p>A high-performance fitness platform interface designed for maximum user engagement. Features include
               class scheduling, membership management, and interactive trainer profiles.</p>
@@ -294,6 +335,10 @@
                 <span>View Live Site</span>
                 <i data-lucide="arrow-up-right"></i>
               </a>
+              <a href="#" class="magnetic project-btn secondary doc-btn" data-project-id="elevategym">
+                <span>Documentation</span>
+                <i data-lucide="file-text"></i>
+              </a>
             </div>
           </div>
           <div class="project-img-wrapper">
@@ -302,23 +347,27 @@
             <img src="/project_2c.png" alt="Elevate Gym 3" class="project-img img-sub-2" />
           </div>
         </div>
-        <!-- Project 3 -->
+        <!-- Project 4 -->
         <div class="project-panel">
           <div class="project-info">
-            <h2>03</h2>
+            <h2>04</h2>
             <h3>HR Management</h3>
             <p>An enterprise-grade internal dashboard for streamlining employee onboarding, payroll processing, and
               performance tracking across multiple company departments.</p>
             <div class="project-tech">
-              <span>Vue.js</span>
-              <span>Python</span>
-              <span>PostgreSQL</span>
+              <span>PHP</span>
+              <span>MySQL</span>
+              <span>JavaScript</span>
             </div>
             <div class="project-actions">
               <span class="project-btn disabled" title="Internal dashboard for company use only">
                 <span>Internal System</span>
                 <i data-lucide="lock"></i>
               </span>
+              <a href="#" class="magnetic project-btn secondary doc-btn" data-project-id="hrsystem">
+                <span>Documentation</span>
+                <i data-lucide="file-text"></i>
+              </a>
             </div>
           </div>
           <div class="project-img-wrapper">
@@ -327,10 +376,10 @@
             <img src="/project_3c.png" alt="HR System 3" class="project-img img-sub-2" />
           </div>
         </div>
-        <!-- Project 4 -->
+        <!-- Project 5 -->
         <div class="project-panel">
           <div class="project-info">
-            <h2>04</h2>
+            <h2>05</h2>
             <h3>Booking System</h3>
             <p>A comprehensive booking and reservation platform designed for service-based businesses. Features include
               real-time availability management, automated confirmations, and customer self-service scheduling.</p>
@@ -344,6 +393,10 @@
                 <span>Coming Soon</span>
                 <i data-lucide="clock"></i>
               </span>
+              <a href="#" class="magnetic project-btn secondary doc-btn" data-project-id="booking">
+                <span>Documentation</span>
+                <i data-lucide="file-text"></i>
+              </a>
             </div>
           </div>
           <div class="project-img-wrapper">
@@ -459,6 +512,65 @@
       if (typeof lucide !== 'undefined') lucide.createIcons();
     });
   </script>
+
+  <!-- Documentation Modal -->
+  <div class="docs-modal" id="docs-modal" aria-hidden="true">
+    <div class="docs-modal-inner">
+      <!-- Header -->
+      <div class="docs-modal-header">
+        <div class="docs-modal-meta">
+          <span class="docs-modal-number" id="docs-modal-number">01</span>
+          <span class="docs-modal-category" id="docs-modal-category">Web Design</span>
+        </div>
+        <button class="docs-modal-close" id="docs-modal-close" aria-label="Close Documentation">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <!-- Scrollable Content -->
+      <div class="docs-modal-body" data-lenis-prevent>
+        <div class="docs-modal-hero">
+          <h1 class="docs-modal-title" id="docs-modal-title">Project Title</h1>
+          <p class="docs-modal-subtitle" id="docs-modal-subtitle">Project subtitle goes here.</p>
+          <div class="docs-modal-links" id="docs-modal-links"></div>
+        </div>
+
+        <div class="docs-modal-grid">
+          <!-- Overview -->
+          <div class="docs-section">
+            <h3><i data-lucide="layout"></i> Overview</h3>
+            <p id="docs-overview"></p>
+          </div>
+          <!-- Tech Stack -->
+          <div class="docs-section">
+            <h3><i data-lucide="cpu"></i> Tech Stack</h3>
+            <div class="docs-tech-list" id="docs-tech-list"></div>
+          </div>
+          <!-- Key Features -->
+          <div class="docs-section docs-section-full">
+            <h3><i data-lucide="zap"></i> Key Features</h3>
+            <ul class="docs-features-list" id="docs-features-list"></ul>
+          </div>
+          <!-- How It Was Built -->
+          <div class="docs-section docs-section-full">
+            <h3><i data-lucide="hammer"></i> How I Built It</h3>
+            <p id="docs-process"></p>
+          </div>
+          <!-- Screenshots -->
+          <div class="docs-section docs-section-full">
+            <h3><i data-lucide="image"></i> Screenshots</h3>
+            <div class="docs-screenshots" id="docs-screenshots"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll To Top Button -->
+  <button class="scroll-top-btn" id="scroll-top-btn" aria-label="Scroll to top">
+    <i data-lucide="arrow-up"></i>
+  </button>
+
 </body>
 
 </html>
