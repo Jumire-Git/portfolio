@@ -907,9 +907,9 @@ const projectDocs = {
     ],
     process: 'The project started with brand research and defining the visual language — dark backgrounds, gold accents, and clean typography to evoke trust and exclusivity. I built the site using React and Tailwind CSS with Framer Motion handling all scroll-triggered and entrance animations. The layout was designed mobile-first, then scaled up for desktop, with careful attention to white space and hierarchy. Deployed on Vercel for instant, globally distributed delivery.',
     screenshots: [
-      '/PROJECTS/APEX PERFORMANCE/HERO SECTION.png',
-      '/PROJECTS/APEX PERFORMANCE/SERVICES.png',
-      '/PROJECTS/APEX PERFORMANCE/CONTACT.png',
+      '/PROJECTS/APEX%20PERFORMANCE/HERO%20SECTION.png',
+      '/PROJECTS/APEX%20PERFORMANCE/SERVICES.png',
+      '/PROJECTS/APEX%20PERFORMANCE/CONTACT.png',
     ],
   },
   chefcaleb: {
