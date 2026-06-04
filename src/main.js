@@ -14,10 +14,6 @@ if (typeof lucide !== 'undefined') {
 const lenis = new Lenis({
   duration: 1.2,
   easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  direction: 'vertical',
-  gestureDirection: 'vertical',
-  smooth: true,
-  mouseMultiplier: 1,
   smoothTouch: false,
   touchMultiplier: 2,
   infinite: false,
@@ -34,12 +30,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-function raf(time) {
-  lenis.raf(time)
-  requestAnimationFrame(raf)
-}
-
-requestAnimationFrame(raf)
 
 // Integrate GSAP with Lenis
 lenis.on('scroll', ScrollTrigger.update)
@@ -52,9 +42,6 @@ gsap.ticker.lagSmoothing(0)
 
 // --- Animations ---
 
-// About Section Animations
-import { ScrollTrigger as ST } from 'gsap/ScrollTrigger';
-gsap.registerPlugin(ST);
 
 function animateAboutSection() {
   // Kill existing About ScrollTriggers to prevent duplicates on theme change
@@ -64,43 +51,69 @@ function animateAboutSection() {
     }
   });
 
-  // --- 1. Headline word-by-word reveal (Pinned) ---
+  // --- 1. Headline word-by-word reveal ---
   const words = document.querySelectorAll('.about-word');
   if (!words.length) return;
 
   gsap.set(words, { opacity: 0, y: 30 });
 
-  // Create a timeline that pins the headline and scrubs the animation
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      id: 'about-pin',
-      trigger: '.about-headline',
-      start: 'center center', // Lock when the headline reaches the center of the viewport
-      end: '+=1500', // Stay locked for 1500px of scrolling
-      scrub: 1.5, // Smooth scrubbing
-      pin: true, // Pin the section
-    }
-  });
+  const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 901;
 
-  // Animate all words in with stagger
-  tl.to(words, {
-    opacity: 1,
-    y: 0,
-    stagger: 0.1,
-    ease: 'power2.out',
-  }, 0);
+  if (isMobile) {
+    // Mobile: simple scroll-triggered fade-in, no pin (avoids scroll jank)
+    gsap.to(words, {
+      scrollTrigger: {
+        trigger: '.about-headline',
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+      },
+      opacity: 1,
+      y: 0,
+      stagger: 0.06,
+      duration: 0.6,
+      ease: 'power2.out',
+    });
+    gsap.to('.about-line-muted', {
+      scrollTrigger: {
+        trigger: '.about-headline',
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+      },
+      opacity: 0.7,
+      duration: 0.8,
+      ease: 'none',
+    });
+  } else {
+    // Desktop: pinned scrub animation
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        id: 'about-pin',
+        trigger: '.about-headline',
+        start: 'center center',
+        end: '+=1500',
+        scrub: 1.5,
+        pin: true,
+      }
+    });
 
-  // Animate muted lines: brighten opacity as they enter
-  tl.to('.about-line-muted', {
-    opacity: 1,
-    ease: 'none',
-  }, 0.2); // Start slightly after the first words
+    tl.to(words, {
+      opacity: 1,
+      y: 0,
+      stagger: 0.1,
+      ease: 'power2.out',
+    }, 0);
 
-  // Sort triggers by DOM order so the About section pin is calculated BEFORE the Projects section pin
-  setTimeout(() => {
-    ScrollTrigger.sort();
-    ScrollTrigger.refresh();
-  }, 50);
+    tl.to('.about-line-muted', {
+      opacity: 1,
+      ease: 'none',
+    }, 0.2);
+
+    // Sort triggers by DOM order
+    setTimeout(() => {
+      ScrollTrigger.sort();
+      ScrollTrigger.refresh();
+    }, 50);
+  }
 }
 
 // Run on load and after theme change
@@ -233,45 +246,49 @@ window.addEventListener('resize', () => {
   }, 500);
 });
 
-// 4. Custom Cursor
+// 4. Custom Cursor (desktop / fine pointer only)
 const cursor = document.querySelector('.custom-cursor');
 const cursorLinks = document.querySelectorAll('a, .magnetic, .project-btn');
 
-document.addEventListener('mousemove', (e) => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-});
-
-cursorLinks.forEach(link => {
-  link.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-  link.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-});
-
-// 5. Magnetic Elements
-const magnetics = document.querySelectorAll('.magnetic');
-magnetics.forEach(magnetic => {
-  magnetic.addEventListener('mousemove', (e) => {
-    const position = magnetic.getBoundingClientRect();
-    const x = e.clientX - position.left - position.width / 2;
-    const y = e.clientY - position.top - position.height / 2;
-
-    gsap.to(magnetic, {
-      x: x * 0.4,
-      y: y * 0.4,
-      duration: 0.5,
-      ease: 'power2.out'
-    });
+if (window.matchMedia('(pointer: fine)').matches && cursor) {
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
   });
 
-  magnetic.addEventListener('mouseleave', () => {
-    gsap.to(magnetic, {
-      x: 0,
-      y: 0,
-      duration: 0.5,
-      ease: 'elastic.out(1, 0.3)'
+  cursorLinks.forEach(link => {
+    link.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    link.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+}
+
+// 5. Magnetic Elements (desktop / fine pointer only)
+if (window.matchMedia('(pointer: fine)').matches) {
+  const magnetics = document.querySelectorAll('.magnetic');
+  magnetics.forEach(magnetic => {
+    magnetic.addEventListener('mousemove', (e) => {
+      const position = magnetic.getBoundingClientRect();
+      const x = e.clientX - position.left - position.width / 2;
+      const y = e.clientY - position.top - position.height / 2;
+
+      gsap.to(magnetic, {
+        x: x * 0.4,
+        y: y * 0.4,
+        duration: 0.5,
+        ease: 'power2.out'
+      });
+    });
+
+    magnetic.addEventListener('mouseleave', () => {
+      gsap.to(magnetic, {
+        x: 0,
+        y: 0,
+        duration: 0.5,
+        ease: 'elastic.out(1, 0.3)'
+      });
     });
   });
-});
+}
 
 // 6. Header Hide/Show on Scroll
 let lastScrollY = window.scrollY;
@@ -1096,3 +1113,60 @@ document.addEventListener('keydown', (e) => {
     closeDocsModal();
   }
 });
+
+// ==========================================
+// Contact Form Submission (Web3Forms)
+// ==========================================
+const contactForm = document.getElementById('contact-form');
+const formResult = document.getElementById('form-result');
+
+if (contactForm) {
+  contactForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const formData = new FormData(contactForm);
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    formResult.textContent = 'Sending message...';
+    formResult.className = 'form-result'; // reset classes
+    formResult.style.display = 'block';
+
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.style.opacity = '0.7';
+    submitBtn.style.pointerEvents = 'none';
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: json
+    })
+      .then(async (response) => {
+        let json = await response.json();
+        if (response.status == 200) {
+          formResult.textContent = "Message sent successfully! I'll get back to you soon.";
+          formResult.classList.add('success');
+          contactForm.reset();
+        } else {
+          console.log(response);
+          formResult.textContent = json.message || "Something went wrong!";
+          formResult.classList.add('error');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        formResult.textContent = "Something went wrong! Please try again later.";
+        formResult.classList.add('error');
+      })
+      .finally(() => {
+        submitBtn.style.opacity = '1';
+        submitBtn.style.pointerEvents = 'all';
+        setTimeout(() => {
+          formResult.style.display = 'none';
+          formResult.className = 'form-result';
+        }, 5000);
+      });
+  });
+}

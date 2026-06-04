@@ -4,7 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JMR</title>
+  <meta name="description" content="Juan Miguel Repas — Full-Stack Developer, AI Solutions & Cybersecurity specialist from the Philippines. View my portfolio of web apps, and let's build something amazing together." />
+  <meta name="theme-color" content="#050505" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Juan Miguel Repas | Full-Stack Developer</title>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -441,6 +444,31 @@
               class="magnetic footer-link">OnlineJobs</a>
             <a href="/resume.pdf" download="Juan_Miguel_Repas_Resume.pdf" class="magnetic footer-link">Resume</a>
           </div>
+        </div>
+        <div class="footer-form-wrapper">
+          <form id="contact-form" class="contact-form">
+            <input type="hidden" name="access_key" value="0487c7bb-22d3-4e39-9557-0dac9bd4bd51">
+            <input type="hidden" name="subject" value="New Message from Portfolio Contact Form">
+            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+            
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required placeholder="John Doe">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required placeholder="john@example.com">
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="4" required placeholder="How can I help you?"></textarea>
+            </div>
+            <button type="submit" class="magnetic submit-btn" id="submit-btn">
+              <span>Send Message</span>
+              <i data-lucide="send"></i>
+            </button>
+            <p id="form-result" class="form-result"></p>
+          </form>
         </div>
       </div>
       <div class="footer-bottom">
