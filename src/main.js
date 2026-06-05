@@ -58,62 +58,37 @@ function animateAboutSection() {
   gsap.set(words, { opacity: 0, y: 30 });
 
   const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 901;
+  const endValue = isMobile ? '+=1000' : '+=1500';
 
-  if (isMobile) {
-    // Mobile: simple scroll-triggered fade-in, no pin (avoids scroll jank)
-    gsap.to(words, {
-      scrollTrigger: {
-        trigger: '.about-headline',
-        start: 'top 85%',
-        toggleActions: 'play none none none',
-      },
-      opacity: 1,
-      y: 0,
-      stagger: 0.06,
-      duration: 0.6,
-      ease: 'power2.out',
-    });
-    gsap.to('.about-line-muted', {
-      scrollTrigger: {
-        trigger: '.about-headline',
-        start: 'top 85%',
-        toggleActions: 'play none none none',
-      },
-      opacity: 0.7,
-      duration: 0.8,
-      ease: 'none',
-    });
-  } else {
-    // Desktop: pinned scrub animation
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        id: 'about-pin',
-        trigger: '.about-headline',
-        start: 'center center',
-        end: '+=1500',
-        scrub: 1.5,
-        pin: true,
-      }
-    });
+  // Pinned scrub animation (both mobile & desktop)
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      id: 'about-pin',
+      trigger: '.about-headline',
+      start: 'center center',
+      end: endValue,
+      scrub: 1.5,
+      pin: true,
+    }
+  });
 
-    tl.to(words, {
-      opacity: 1,
-      y: 0,
-      stagger: 0.1,
-      ease: 'power2.out',
-    }, 0);
+  tl.to(words, {
+    opacity: 1,
+    y: 0,
+    stagger: 0.1,
+    ease: 'power2.out',
+  }, 0);
 
-    tl.to('.about-line-muted', {
-      opacity: 1,
-      ease: 'none',
-    }, 0.2);
+  tl.to('.about-line-muted', {
+    opacity: 1,
+    ease: 'none',
+  }, 0.2);
 
-    // Sort triggers by DOM order
-    setTimeout(() => {
-      ScrollTrigger.sort();
-      ScrollTrigger.refresh();
-    }, 50);
-  }
+  // Sort triggers by DOM order
+  setTimeout(() => {
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
+  }, 50);
 }
 
 // Run on load and after theme change
@@ -773,9 +748,9 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
       return "Juan maintains an active GitHub profile where selected open-source contributions and personal projects are showcased. The GitHub link is accessible from the footer section of this page.";
     }
 
-    // --- Cybersecurity ---
-    if (normalized.includes('cyber') || normalized.includes('security') || normalized.includes('secure') || normalized.includes('hacking') || normalized.includes('vulnerability')) {
-      return "Security is a core discipline in Juan's development practice. He implements secure development lifecycles, encrypted credential storage, API authentication, input validation, and threat mitigation strategies across all systems he builds.";
+    // --- Front-End Focus ---
+    if (normalized.includes('design') || normalized.includes('ui') || normalized.includes('ux') || normalized.includes('frontend') || normalized.includes('front-end')) {
+      return "Juan specializes in modern front-end development, focusing on responsive layout design, fluid animations, mobile-first optimization, and seamless user experiences using tools like React, Next.js, CSS3, and GSAP.";
     }
 
     // --- AI and Automation ---
@@ -790,7 +765,7 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
 
     // --- Services ---
     if (normalized.includes('service') || normalized.includes('offer') || normalized.includes('provide') || normalized.includes('speciali')) {
-      return "Juan offers the following professional services:<br><br>• Full-stack web application development<br>• Custom AI integration and workflow automation<br>• Infrastructure security audits and threat mitigation<br>• Technical virtual assistance for business operations<br>• API design, integration, and third-party system connectivity";
+      return "Juan offers the following professional services:<br><br>• Front-End Web Development<br>• Technical Virtual Assistance (Tech VA)<br>• Custom AI integration and workflow automation<br>• UI/UX design and mobile-first responsive optimization<br>• API integration and third-party system connectivity";
     }
 
     // --- Location ---
@@ -805,7 +780,7 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
 
     // --- Education ---
     if (normalized.includes('education') || normalized.includes('degree') || normalized.includes('study') || normalized.includes('university') || normalized.includes('college') || normalized.includes('school')) {
-      return "Juan holds strong computational and engineering knowledge built through rigorous self-directed research, formal coursework in software engineering principles, and advanced applied learning in cybersecurity and AI-driven application design.";
+      return "Juan holds strong computational and engineering knowledge built through rigorous self-directed research, formal coursework in software engineering principles, and advanced applied learning in front-end technologies and AI-driven application design.";
     }
 
     // --- Process / Workflow ---
@@ -866,7 +841,7 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
 
     // --- About Juan ---
     if (normalized.includes('about') || normalized.includes('juan') || normalized.includes('tell me more') || normalized.includes('who is')) {
-      return "Juan Miguel Repas is a Full-Stack Developer, AI Solutions Integrator, and Cybersecurity advocate based in the Philippines. He builds scalable, secure, and high-performance web and mobile applications for clients across various industries globally.";
+      return "Juan Miguel Repas is a Front-End Developer, Technical Virtual Assistant, and AI Solutions Integrator based in the Philippines. He builds responsive, mobile-first, and high-performance web applications for clients across various industries globally.";
     }
 
     // --- Default fallback ---

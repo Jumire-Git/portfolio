@@ -463,6 +463,10 @@ section {
   letter-spacing: -2px;
   line-height: 1.1;
   overflow: hidden;
+  padding: 0.15em 0;
+  /* Prevents text-shadow clipping */
+  margin: -0.15em 0;
+  /* Balances the layout spacing */
 }
 
 .about-animated-line:first-child {
@@ -1381,11 +1385,6 @@ section {
   padding: 0.5rem;
   z-index: 101;
   gap: 6px;
-  transition: transform 0.2s ease;
-}
-
-.hamburger-menu:hover {
-  transform: scale(1.05);
 }
 
 .hamburger-line {
