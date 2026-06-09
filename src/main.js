@@ -1145,3 +1145,52 @@ if (contactForm) {
       });
   });
 }
+
+// ==========================================
+// Tech Stack Marquee Interactions (Touch & Hover)
+// ==========================================
+const techCards = document.querySelectorAll('.tech-card');
+
+techCards.forEach(card => {
+  const glowColor = card.getAttribute('data-glow');
+  if (glowColor) {
+    // Set custom glow properties dynamically
+    card.style.setProperty('--glow-color', glowColor);
+    card.style.setProperty('--glow-shadow', glowColor + '40'); // Hex-Alpha ~25% opacity
+  }
+
+  // Handle Touch Events (Mobile/Tablet)
+  card.addEventListener('touchstart', (e) => {
+    // Prevent default tap behavior if you want to explicitly handle glow, 
+    // but leave it natural for links/a tag wraps.
+    const marquee = card.closest('.tech-marquee');
+    
+    // Clear active/paused from all other cards/marquees
+    document.querySelectorAll('.tech-card').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tech-marquee').forEach(m => m.classList.remove('paused'));
+
+    // Activate current card and pause current marquee
+    card.classList.add('active');
+    if (marquee) {
+      marquee.classList.add('paused');
+    }
+
+    // Auto-resume after 2.5 seconds
+    if (card.touchTimeout) clearTimeout(card.touchTimeout);
+    card.touchTimeout = setTimeout(() => {
+      card.classList.remove('active');
+      if (marquee) {
+        marquee.classList.remove('paused');
+      }
+    }, 2500);
+  }, { passive: true });
+});
+
+// Clear active states on tap outside the tech section
+document.addEventListener('touchstart', (e) => {
+  if (!e.target.closest('.tech-stack-section')) {
+    document.querySelectorAll('.tech-card').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tech-marquee').forEach(m => m.classList.remove('paused'));
+  }
+}, { passive: true });
+

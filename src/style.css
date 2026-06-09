@@ -1784,36 +1784,178 @@ body:has(.mobile-nav-menu.active) .site-header {
   transform: translateY(-2px);
 }
 
-/* Tech Stack Grid */
+/* Tech Stack Marquee Section (Mobile-First) */
 .tech-stack-section {
   background-color: var(--bg-secondary);
-  padding: 8vw 5vw;
-  min-height: auto;
+  padding: 4rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.tech-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  align-items: center;
-  max-width: 900px;
+  overflow: hidden;
   width: 100%;
+  position: relative;
 }
 
-.tech-grid-row {
+/* Decorative Background Watermarks */
+.tech-bg-watermarks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.tech-watermark {
+  position: absolute;
+  opacity: 0.6;
+  filter: blur(0.5px);
+}
+
+/* Claude watermark — left side, floats up-down */
+.watermark-claude {
+  width: 280px;
+  height: auto;
+  left: -20px;
+  bottom: 8%;
+  top: auto;
+  transform: rotate(-8deg);
+  animation: watermark-float-1 14s ease-in-out infinite;
+}
+
+/* Gemini watermark — right side, floats diagonally */
+.watermark-gemini {
+  width: 240px;
+  height: auto;
+  right: -10px;
+  top: 6%;
+  animation: watermark-float-2 18s ease-in-out infinite;
+  transform: rotate(6deg);
+}
+
+@keyframes watermark-float-1 {
+  0%, 100% {
+    transform: rotate(-8deg) translateY(0);
+  }
+  25% {
+    transform: rotate(-6deg) translateY(-12px);
+  }
+  50% {
+    transform: rotate(-10deg) translateY(8px);
+  }
+  75% {
+    transform: rotate(-7deg) translateY(-5px);
+  }
+}
+
+@keyframes watermark-float-2 {
+  0%, 100% {
+    transform: rotate(6deg) translate(0, 0);
+  }
+  25% {
+    transform: rotate(4deg) translate(-8px, 10px);
+  }
+  50% {
+    transform: rotate(8deg) translate(5px, -8px);
+  }
+  75% {
+    transform: rotate(5deg) translate(-3px, 4px);
+  }
+}
+
+/* Ensure marquee content stays above the watermarks */
+.tech-stack-section .section-title,
+.tech-marquee-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Desktop: larger watermarks, more visible */
+@media (min-width: 769px) {
+  .watermark-claude {
+    width: 380px;
+    height: 380px;
+    left: -40px;
+  }
+
+  .watermark-gemini {
+    width: 420px;
+    height: 420px;
+    right: -50px;
+    top: 5%;
+  }
+}
+
+
+.tech-marquee-container {
   display: flex;
-  gap: 1.5rem;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  position: relative;
+  margin-top: 1.5rem;
 }
 
+.tech-marquee {
+  display: flex;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  user-select: none;
+  padding: 10px 0;
+}
+
+/* Linear gradients to fade the marquee edges */
+.tech-marquee-container::before,
+.tech-marquee-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.tech-marquee-container::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-secondary) 0%, transparent 100%);
+}
+
+.tech-marquee-container::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-secondary) 0%, transparent 100%);
+}
+
+.marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  gap: 1rem;
+  min-width: 100%;
+  justify-content: space-around;
+  will-change: transform;
+}
+
+/* Direction animations */
+.marquee-ltr .marquee-content {
+  animation: scroll-ltr 22s linear infinite;
+}
+
+.marquee-rtl .marquee-content {
+  animation: scroll-rtl 22s linear infinite;
+}
+
+/* Pause on hover (desktop) or when active (mobile touch) */
+.tech-marquee:hover .marquee-content,
+.tech-marquee.paused .marquee-content {
+  animation-play-state: paused;
+}
+
+/* Tech Cards (Mobile-First) */
 .tech-card {
-  width: 120px;
-  height: 120px;
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 16px;
@@ -1821,9 +1963,9 @@ body:has(.mobile-nav-menu.active) .site-header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  cursor: default;
+  gap: 0.5rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
   position: relative;
   overflow: hidden;
 }
@@ -1833,50 +1975,135 @@ body:has(.mobile-nav-menu.active) .site-header {
   position: absolute;
   inset: 0;
   border-radius: 16px;
-  background: radial-gradient(circle at 50% 0%, rgba(var(--accent-rgb), 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 0%, rgba(var(--accent-rgb), 0.04) 0%, transparent 70%);
   opacity: 0;
   transition: opacity 0.4s ease;
 }
 
-.tech-card:hover::before {
+.tech-card:hover::before,
+.tech-card.active::before {
   opacity: 1;
 }
 
-.tech-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(var(--accent-rgb), 0.3);
-  box-shadow: 0 12px 40px rgba(var(--accent-rgb), 0.1);
+.tech-card:hover,
+.tech-card.active {
+  transform: translateY(-5px) scale(1.04);
+  border-color: var(--glow-color, rgba(var(--accent-rgb), 0.3));
+  box-shadow: 0 10px 25px var(--glow-shadow, rgba(var(--accent-rgb), 0.1));
 }
 
 .tech-card i {
-  font-size: 2.8rem;
-  filter: drop-shadow(0 2px 8px rgba(var(--accent-rgb), 0.2));
+  font-size: 2.2rem;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.15));
+  transition: transform 0.3s ease;
+}
+
+.tech-card .ai-logo-svg {
+  width: 2.2rem;
+  height: 2.2rem;
+  transition: transform 0.3s ease;
+}
+
+.tech-card:hover i,
+.tech-card:hover .ai-logo-svg,
+.tech-card.active i,
+.tech-card.active .ai-logo-svg {
+  transform: scale(1.08);
 }
 
 .tech-card span {
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-weight: 500;
+  font-weight: 600;
+  transition: color 0.3s ease;
 }
 
-.tech-card:hover span {
+.tech-card:hover span,
+.tech-card.active span {
   color: var(--text-primary);
 }
 
-@media (max-width: 768px) {
+/* Custom AI SVG Styling */
+.ai-logo-svg {
+  fill: currentColor;
+  color: var(--text-primary);
+}
+
+.tech-card[data-glow="#d97b56"] .ai-logo-svg {
+  color: #d97b56;
+}
+
+.tech-card[data-glow="#1a73e8"] .ai-logo-svg {
+  color: #1a73e8;
+}
+
+.tech-card[data-glow="#10a37f"] .ai-logo-svg {
+  color: #10a37f;
+}
+
+/* Keyframes for Loop */
+@keyframes scroll-ltr {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes scroll-rtl {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Media Query enhancements (Tablet / Desktop) */
+@media (min-width: 769px) {
+  .tech-stack-section {
+    padding: 6rem 0;
+  }
+
+  .tech-marquee-container {
+    gap: 1.8rem;
+    margin-top: 3rem;
+  }
+
+  .tech-marquee-container::before,
+  .tech-marquee-container::after {
+    width: 120px;
+  }
+
+  .marquee-content {
+    gap: 1.5rem;
+  }
+
   .tech-card {
-    width: 90px;
-    height: 90px;
+    width: 120px;
+    height: 120px;
+    gap: 0.7rem;
+    border-radius: 20px;
+  }
+
+  .tech-card::before {
+    border-radius: 20px;
   }
 
   .tech-card i {
-    font-size: 2rem;
+    font-size: 2.8rem;
   }
 
-  .tech-grid-row {
-    gap: 1rem;
+  .tech-card .ai-logo-svg {
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+
+  .tech-card span {
+    font-size: 0.72rem;
   }
 }
 

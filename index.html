@@ -217,30 +217,167 @@
 
     <!-- Tech Stack Grid -->
     <section class="tech-stack-section" id="skills">
+      <!-- Decorative Background Watermarks -->
+      <div class="tech-bg-watermarks" aria-hidden="true">
+        <!-- Claude Logo Watermark (Left Side) -->
+        <svg class="tech-watermark watermark-claude" viewBox="0 0 200 200" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="claude-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#d97b56" stop-opacity="0.12" />
+              <stop offset="100%" stop-color="#e8956e" stop-opacity="0.04" />
+            </linearGradient>
+          </defs>
+          <!-- Claude Terminal / Anthropic "A" mark, stylized -->
+          <circle cx="100" cy="100" r="90" stroke="url(#claude-grad)" stroke-width="1.5" fill="none" opacity="0.3" />
+          <circle cx="100" cy="100" r="70" stroke="url(#claude-grad)" stroke-width="0.8" fill="none" opacity="0.15" />
+          <path d="M100 40 L140 140 H130 L120 115 H80 L70 140 H60 Z M90 105 H110 L100 72 Z" fill="url(#claude-grad)"
+            opacity="0.6" />
+          <!-- Decorative orbital dots -->
+          <circle cx="100" cy="10" r="3" fill="#d97b56" opacity="0.2" />
+          <circle cx="190" cy="100" r="2.5" fill="#d97b56" opacity="0.15" />
+          <circle cx="100" cy="190" r="2" fill="#d97b56" opacity="0.1" />
+          <circle cx="10" cy="100" r="3" fill="#d97b56" opacity="0.18" />
+        </svg>
+
+        <!-- Gemini Logo Watermark (Right Side) -->
+        <svg class="tech-watermark watermark-gemini" viewBox="0 0 200 200" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gemini-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4285f4" stop-opacity="0.12" />
+              <stop offset="50%" stop-color="#9b72cb" stop-opacity="0.08" />
+              <stop offset="100%" stop-color="#d96570" stop-opacity="0.04" />
+            </linearGradient>
+          </defs>
+          <!-- Gemini 4-point star spark -->
+          <circle cx="100" cy="100" r="90" stroke="url(#gemini-grad)" stroke-width="1.5" fill="none" opacity="0.25" />
+          <circle cx="100" cy="100" r="65" stroke="url(#gemini-grad)" stroke-width="0.8" fill="none" opacity="0.12" />
+          <path
+            d="M100 30 C100 70, 130 100, 170 100 C130 100, 100 130, 100 170 C100 130, 70 100, 30 100 C70 100, 100 70, 100 30 Z"
+            fill="url(#gemini-grad)" opacity="0.5" />
+          <!-- Secondary smaller spark -->
+          <path
+            d="M155 45 C155 58, 165 68, 178 68 C165 68, 155 78, 155 91 C155 78, 145 68, 132 68 C145 68, 155 58, 155 45 Z"
+            fill="url(#gemini-grad)" opacity="0.35" />
+          <!-- Orbital dots -->
+          <circle cx="100" cy="10" r="2.5" fill="#4285f4" opacity="0.18" />
+          <circle cx="190" cy="100" r="2" fill="#9b72cb" opacity="0.12" />
+          <circle cx="100" cy="190" r="3" fill="#d96570" opacity="0.15" />
+          <circle cx="10" cy="100" r="2" fill="#4285f4" opacity="0.1" />
+        </svg>
+      </div>
+
       <h2 class="section-title" style="text-align: center; margin-bottom: 3rem;">Tech Stack</h2>
-      <div class="tech-grid">
-        <!-- Row 1 -->
-        <div class="tech-grid-row">
-          <div class="tech-card"><i class="devicon-php-plain colored"></i><span>PHP</span></div>
-          <div class="tech-card"><i class="devicon-nodejs-plain colored"></i><span>Node.js</span></div>
-          <div class="tech-card"><i class="devicon-html5-plain colored"></i><span>HTML5</span></div>
-          <div class="tech-card"><i class="devicon-react-original colored"></i><span>React</span></div>
-          <div class="tech-card"><i class="devicon-mysql-plain colored"></i><span>MySQL</span></div>
+      <div class="tech-marquee-container">
+        <!-- Row 1: Left-to-Right Scrolling -->
+        <div class="tech-marquee marquee-ltr">
+          <div class="marquee-content">
+            <!-- Items Set 1 -->
+            <div class="tech-card" data-glow="#61dafb"><i class="devicon-react-original colored"></i><span>React</span>
+            </div>
+            <div class="tech-card" data-glow="#339933"><i class="devicon-nodejs-plain colored"></i><span>Node.js</span>
+            </div>
+            <div class="tech-card" data-glow="#f1502f"><i class="devicon-git-plain colored"></i><span>Git</span></div>
+            <div class="tech-card" data-glow="#e34f26"><i class="devicon-html5-plain colored"></i><span>HTML5</span>
+            </div>
+            <div class="tech-card" data-glow="#d97b56">
+              <svg viewBox="0 0 32 32" class="ai-logo-svg" fill="currentColor">
+                <path
+                  d="M19.3 22.8c-1.1.2-2 .2-3.1-.2-1.9-.8-2.6-2.5-3.3-4.2l-3.3-7.5C9.1 9.8 8.6 9 8 8.4V7h5.3v1.4c-.7.6-1 1.2-1 2l1.6 3.9h5c.2-.5.4-1.1.5-1.7.2-.6.2-1.2 0-1.8v-.6c-.2-.6-.6-1.1-1.1-1.6V7h6.6v1.4c-.6.6-1.1 1.2-1.6 2l-3.3 7.7c-.5 1.2-1.1 2.4-1.9 3.5-.1.3-.2.6-.2.9 0 .2.1.3.2.3 1.1 0 2.2-.4 3-1.1V22.4c-1.1.3-2.6.4-3.8.4zM13.2 16.5h4.1l-2.1-5.1-2 5.1z" />
+              </svg>
+              <span>Claude</span>
+            </div>
+            <div class="tech-card" data-glow="#47a248"><i class="devicon-mongodb-plain colored"></i><span>MongoDB</span>
+            </div>
+            <div class="tech-card" data-glow="#777bb4"><i class="devicon-php-plain colored"></i><span>PHP</span></div>
+            <div class="tech-card" data-glow="#00758f"><i class="devicon-mysql-plain colored"></i><span>MySQL</span>
+            </div>
+
+            <!-- Duplicated Items for Loop -->
+            <div class="tech-card" data-glow="#61dafb"><i class="devicon-react-original colored"></i><span>React</span>
+            </div>
+            <div class="tech-card" data-glow="#339933"><i class="devicon-nodejs-plain colored"></i><span>Node.js</span>
+            </div>
+            <div class="tech-card" data-glow="#f1502f"><i class="devicon-git-plain colored"></i><span>Git</span></div>
+            <div class="tech-card" data-glow="#e34f26"><i class="devicon-html5-plain colored"></i><span>HTML5</span>
+            </div>
+            <div class="tech-card" data-glow="#d97b56">
+              <svg viewBox="0 0 32 32" class="ai-logo-svg" fill="currentColor">
+                <path
+                  d="M19.3 22.8c-1.1.2-2 .2-3.1-.2-1.9-.8-2.6-2.5-3.3-4.2l-3.3-7.5C9.1 9.8 8.6 9 8 8.4V7h5.3v1.4c-.7.6-1 1.2-1 2l1.6 3.9h5c.2-.5.4-1.1.5-1.7.2-.6.2-1.2 0-1.8v-.6c-.2-.6-.6-1.1-1.1-1.6V7h6.6v1.4c-.6.6-1.1 1.2-1.6 2l-3.3 7.7c-.5 1.2-1.1 2.4-1.9 3.5-.1.3-.2.6-.2.9 0 .2.1.3.2.3 1.1 0 2.2-.4 3-1.1V22.4c-1.1.3-2.6.4-3.8.4zM13.2 16.5h4.1l-2.1-5.1-2 5.1z" />
+              </svg>
+              <span>Claude</span>
+            </div>
+            <div class="tech-card" data-glow="#47a248"><i class="devicon-mongodb-plain colored"></i><span>MongoDB</span>
+            </div>
+            <div class="tech-card" data-glow="#777bb4"><i class="devicon-php-plain colored"></i><span>PHP</span></div>
+            <div class="tech-card" data-glow="#00758f"><i class="devicon-mysql-plain colored"></i><span>MySQL</span>
+            </div>
+          </div>
         </div>
-        <!-- Row 2 -->
-        <div class="tech-grid-row">
-          <div class="tech-card"><i class="devicon-mongodb-plain colored"></i><span>MongoDB</span></div>
-          <div class="tech-card"><i class="devicon-python-plain colored"></i><span>Python</span></div>
-          <div class="tech-card"><i class="devicon-flutter-plain colored"></i><span>Flutter</span></div>
-          <div class="tech-card"><i class="devicon-css3-plain colored"></i><span>CSS3</span></div>
-          <div class="tech-card"><i class="devicon-javascript-plain colored"></i><span>JavaScript</span></div>
-        </div>
-        <!-- Row 3 -->
-        <div class="tech-grid-row">
-          <div class="tech-card"><i class="devicon-postgresql-plain colored"></i><span>PostgreSQL</span></div>
-          <div class="tech-card"><i class="devicon-angularjs-plain colored"></i><span>Angular</span></div>
-          <div class="tech-card"><i class="devicon-express-original colored"></i><span>Express</span></div>
-          <div class="tech-card"><i class="devicon-git-plain colored"></i><span>Git</span></div>
+
+        <!-- Row 2: Right-to-Left Scrolling -->
+        <div class="tech-marquee marquee-rtl">
+          <div class="marquee-content">
+            <!-- Items Set 2 -->
+            <div class="tech-card" data-glow="#f7df1e"><i
+                class="devicon-javascript-plain colored"></i><span>JavaScript</span></div>
+            <div class="tech-card" data-glow="#1572b6"><i class="devicon-css3-plain colored"></i><span>CSS3</span></div>
+            <div class="tech-card" data-glow="#3776ab"><i class="devicon-python-plain colored"></i><span>Python</span>
+            </div>
+            <div class="tech-card" data-glow="#02569b"><i class="devicon-flutter-plain colored"></i><span>Flutter</span>
+            </div>
+            <div class="tech-card" data-glow="#1a73e8">
+              <svg viewBox="0 0 24 24" class="ai-logo-svg" fill="currentColor">
+                <path
+                  d="M12 2a1 1 0 0 1 1 1v2.5a6.5 6.5 0 0 0 5.5 5.5H21a1 1 0 0 1 0 2h-2.5a6.5 6.5 0 0 0-5.5 5.5V21a1 1 0 0 1-2 0v-2.5a6.5 6.5 0 0 0-5.5-5.5H3a1 1 0 0 1 0-2h2.5A6.5 6.5 0 0 0 11 8.5V3a1 1 0 0 1 1-1z" />
+              </svg>
+              <span>Gemini</span>
+            </div>
+            <div class="tech-card" data-glow="#336791"><i
+                class="devicon-postgresql-plain colored"></i><span>PostgreSQL</span></div>
+            <div class="tech-card" data-glow="#dd0031"><i
+                class="devicon-angularjs-plain colored"></i><span>Angular</span></div>
+            <div class="tech-card" data-glow="#888888"><i
+                class="devicon-express-original colored"></i><span>Express</span></div>
+            <div class="tech-card" data-glow="#10a37f">
+              <svg viewBox="0 0 24 24" class="ai-logo-svg" fill="currentColor">
+                <path
+                  d="M21.7 10.3a5.5 5.5 0 0 0-2.8-4.5 5.7 5.7 0 0 0-6.2.5 5.5 5.5 0 0 0-6.1-3 5.7 5.7 0 0 0-4.1 4.8 5.5 5.5 0 0 0 .5 6.8 5.7 5.7 0 0 0 2.8 4.5 5.7 5.7 0 0 0 6.2-.5 5.5 5.5 0 0 0 6.1 3 5.7 5.7 0 0 0 4.1-4.8 5.5 5.5 0 0 0-.5-6.8zm-11 9.4c-.8 0-1.6-.2-2.3-.6l3-1.7a1 1 0 0 0 .5-.9v-4.1l3.5 2v1.5a3.8 3.8 0 0 1-4.7 3.8zm-6-2.5c-.4-.7-.6-1.5-.6-2.3v-3.4l3.5 2a1 1 0 0 0 1 0l3.5-2v4.1a3.8 3.8 0 0 1-4.7 3.8l-2.7-2.2zm-1.8-6.9a3.8 3.8 0 0 1 2.4-4.5l2.7 1.6v3.4c0 .4.2.8.5.9l3.5 2v-4.1l-3.5-2-2.3-1.3c-.8-.4-1.6-.6-2.3-.6-2 .1-3.6 1.7-3.8 3.8v1.5l.8-.7zm10.7-3.3l-3.5-2v-1.5a3.8 3.8 0 0 1 4.7-3.8 3.8 3.8 0 0 1 2.3 4.5l-3 1.7a1 1 0 0 0-.5.9v4.1l-3.5-2v-3.8zm6 2.5c.4.7.6 1.5.6 2.3v3.4l-3.5-2a1 1 0 0 0-1 0l-3.5 2v-4.1a3.8 3.8 0 0 1 4.7-3.8l2.7 2.2zm1.8 6.9a3.8 3.8 0 0 1-2.4 4.5l-2.7-1.6v-3.4c0-.4-.2-.8-.5-.9l-3.5-2v4.1l3.5 2 2.3 1.3c.8.4 1.6.6 2.3.6 2-.1 3.6-1.7 3.8-3.8v-1.5z" />
+              </svg>
+              <span>OpenAI</span>
+            </div>
+
+            <!-- Duplicated Items for Loop -->
+            <div class="tech-card" data-glow="#f7df1e"><i
+                class="devicon-javascript-plain colored"></i><span>JavaScript</span></div>
+            <div class="tech-card" data-glow="#1572b6"><i class="devicon-css3-plain colored"></i><span>CSS3</span></div>
+            <div class="tech-card" data-glow="#3776ab"><i class="devicon-python-plain colored"></i><span>Python</span>
+            </div>
+            <div class="tech-card" data-glow="#02569b"><i class="devicon-flutter-plain colored"></i><span>Flutter</span>
+            </div>
+            <div class="tech-card" data-glow="#1a73e8">
+              <svg viewBox="0 0 24 24" class="ai-logo-svg" fill="currentColor">
+                <path
+                  d="M12 2a1 1 0 0 1 1 1v2.5a6.5 6.5 0 0 0 5.5 5.5H21a1 1 0 0 1 0 2h-2.5a6.5 6.5 0 0 0-5.5 5.5V21a1 1 0 0 1-2 0v-2.5a6.5 6.5 0 0 0-5.5-5.5H3a1 1 0 0 1 0-2h2.5A6.5 6.5 0 0 0 11 8.5V3a1 1 0 0 1 1-1z" />
+              </svg>
+              <span>Gemini</span>
+            </div>
+            <div class="tech-card" data-glow="#336791"><i
+                class="devicon-postgresql-plain colored"></i><span>PostgreSQL</span></div>
+            <div class="tech-card" data-glow="#dd0031"><i
+                class="devicon-angularjs-plain colored"></i><span>Angular</span></div>
+            <div class="tech-card" data-glow="#888888"><i
+                class="devicon-express-original colored"></i><span>Express</span></div>
+            <div class="tech-card" data-glow="#10a37f">
+              <svg viewBox="0 0 24 24" class="ai-logo-svg" fill="currentColor">
+                <path
+                  d="M21.7 10.3a5.5 5.5 0 0 0-2.8-4.5 5.7 5.7 0 0 0-6.2.5 5.5 5.5 0 0 0-6.1-3 5.7 5.7 0 0 0-4.1 4.8 5.5 5.5 0 0 0 .5 6.8 5.7 5.7 0 0 0 2.8 4.5 5.7 5.7 0 0 0 6.2-.5 5.5 5.5 0 0 0 6.1 3 5.7 5.7 0 0 0 4.1-4.8 5.5 5.5 0 0 0-.5-6.8zm-11 9.4c-.8 0-1.6-.2-2.3-.6l3-1.7a1 1 0 0 0 .5-.9v-4.1l3.5 2v1.5a3.8 3.8 0 0 1-4.7 3.8zm-6-2.5c-.4-.7-.6-1.5-.6-2.3v-3.4l3.5 2a1 1 0 0 0 1 0l3.5-2v4.1a3.8 3.8 0 0 1-4.7 3.8l-2.7-2.2zm-1.8-6.9a3.8 3.8 0 0 1 2.4-4.5l2.7 1.6v3.4c0 .4.2.8.5.9l3.5 2v-4.1l-3.5-2-2.3-1.3c-.8-.4-1.6-.6-2.3-.6-2 .1-3.6 1.7-3.8 3.8v1.5l.8-.7zm10.7-3.3l-3.5-2v-1.5a3.8 3.8 0 0 1 4.7-3.8 3.8 3.8 0 0 1 2.3 4.5l-3 1.7a1 1 0 0 0-.5.9v4.1l-3.5-2v-3.8zm6 2.5c.4.7.6 1.5.6 2.3v3.4l-3.5-2a1 1 0 0 0-1 0l-3.5 2v-4.1a3.8 3.8 0 0 1 4.7-3.8l2.7 2.2zm1.8 6.9a3.8 3.8 0 0 1-2.4 4.5l-2.7-1.6v-3.4c0-.4-.2-.8-.5-.9l-3.5-2v4.1l3.5 2 2.3 1.3c.8.4 1.6.6 2.3.6 2-.1 3.6-1.7 3.8-3.8v-1.5z" />
+              </svg>
+              <span>OpenAI</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
