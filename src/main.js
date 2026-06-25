@@ -602,7 +602,7 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
         }, 800);
       }
     } else {
-      chatOpenIcon.style.display = 'block';
+      chatOpenIcon.style.display = 'flex';
       chatCloseIcon.style.display = 'none';
       contextMessageSent = false;
       hideSuggestions();
