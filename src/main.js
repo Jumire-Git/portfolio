@@ -242,14 +242,17 @@ if (window.matchMedia('(pointer: fine)').matches && cursor) {
 if (window.matchMedia('(pointer: fine)').matches) {
   const magnetics = document.querySelectorAll('.magnetic');
   magnetics.forEach(magnetic => {
+    const isHeroLine = magnetic.classList.contains('hero-line');
+    const strength = isHeroLine ? 0.25 : 0.4;
+
     magnetic.addEventListener('mousemove', (e) => {
       const position = magnetic.getBoundingClientRect();
       const x = e.clientX - position.left - position.width / 2;
       const y = e.clientY - position.top - position.height / 2;
 
       gsap.to(magnetic, {
-        x: x * 0.4,
-        y: y * 0.4,
+        x: x * strength,
+        y: y * strength,
         duration: 0.5,
         ease: 'power2.out'
       });
@@ -259,24 +262,34 @@ if (window.matchMedia('(pointer: fine)').matches) {
       gsap.to(magnetic, {
         x: 0,
         y: 0,
-        duration: 0.5,
+        duration: 0.7,
         ease: 'elastic.out(1, 0.3)'
       });
     });
   });
 }
 
-// 6. Header Hide/Show on Scroll
+// 6. Header Hide/Show + Pill on Scroll
 let lastScrollY = window.scrollY;
 const header = document.querySelector('.site-header');
 
 window.addEventListener('scroll', () => {
-  if (window.scrollY > lastScrollY && window.scrollY > 100) {
+  const currentY = window.scrollY;
+
+  // Pill nav: activate after scrolling past hero
+  if (currentY > 80) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+
+  // Hide on scroll down, show on scroll up
+  if (currentY > lastScrollY && currentY > 150) {
     header.classList.add('hidden');
   } else {
     header.classList.remove('hidden');
   }
-  lastScrollY = window.scrollY;
+  lastScrollY = currentY;
 });
 
 // Mobile Hamburger Menu Toggle
@@ -376,16 +389,12 @@ themeToggle.addEventListener('click', () => {
 
 // 7. Preloader Animation
 const preloaderTl = gsap.timeline();
-preloaderTl.to('.preloader-text', {
-  opacity: 1,
+preloaderTl.from('.preloader-text', {
+  opacity: 0,
   duration: 1,
   ease: "power2.inOut"
 })
-  .to('.preloader-progress', {
-    width: '100%',
-    duration: 1.5,
-    ease: "power2.inOut"
-  }, "-=0.5")
+
   .to('.preloader', {
     yPercent: -100,
     duration: 1,
@@ -944,22 +953,16 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
 }
 
 // =============================================
-// SCROLL TO TOP BUTTON
+// JMR LOGO — SCROLL TO TOP
 // =============================================
 
-const scrollTopBtn = document.getElementById('scroll-top-btn');
-
-lenis.on('scroll', ({ scroll }) => {
-  if (scroll > 400) {
-    scrollTopBtn.classList.add('visible');
-  } else {
-    scrollTopBtn.classList.remove('visible');
-  }
-});
-
-scrollTopBtn.addEventListener('click', () => {
-  lenis.scrollTo(0, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
-});
+const logoScrollTop = document.getElementById('logo-scroll-top');
+if (logoScrollTop) {
+  logoScrollTop.addEventListener('click', (e) => {
+    e.preventDefault();
+    lenis.scrollTo(0, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+  });
+}
 
 if (typeof lucide !== 'undefined') lucide.createIcons();
 

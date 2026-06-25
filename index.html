@@ -21,7 +21,7 @@
   <div class="preloader">
     <div class="preloader-content">
       <h1 class="preloader-text">JMR</h1>
-      <div class="preloader-progress"></div>
+
     </div>
   </div>
 
@@ -34,7 +34,7 @@
   <!-- Header -->
   <header class="site-header">
     <div class="header-logo">
-      <a href="#" class="magnetic">JMR</a>
+      <a href="#" class="magnetic" id="logo-scroll-top">JMR</a>
     </div>
     <nav class="header-nav">
       <a href="#work" class="magnetic nav-link">Work</a>
@@ -51,27 +51,28 @@
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
     </button>
-    <!-- Mobile Navigation Menu -->
-    <nav class="mobile-nav-menu" id="mobile-nav-menu">
-      <!-- Close Button -->
-      <button class="menu-close-btn" id="menu-close-btn" aria-label="Close Menu">
-        <i data-lucide="x"></i>
-      </button>
-
-      <div class="mobile-nav-container">
-        <a href="#work" class="mobile-nav-link" data-section="work">Work</a>
-        <a href="#about" class="mobile-nav-link" data-section="about">About</a>
-        <a href="#contact" class="mobile-nav-link" data-section="contact">Contact</a>
-
-        <div class="mobile-nav-separator"></div>
-
-        <button id="mobile-theme-toggle" class="mobile-theme-btn" aria-label="Toggle Theme">
-          <i data-lucide="sun" class="sun-icon"></i>
-          <span>Toggle Theme</span>
-        </button>
-      </div>
-    </nav>
   </header>
+
+  <!-- Mobile Navigation Menu (outside header to avoid pill transform issues) -->
+  <nav class="mobile-nav-menu" id="mobile-nav-menu">
+    <!-- Close Button -->
+    <button class="menu-close-btn" id="menu-close-btn" aria-label="Close Menu">
+      <i data-lucide="x"></i>
+    </button>
+
+    <div class="mobile-nav-container">
+      <a href="#work" class="mobile-nav-link" data-section="work">Work</a>
+      <a href="#about" class="mobile-nav-link" data-section="about">About</a>
+      <a href="#contact" class="mobile-nav-link" data-section="contact">Contact</a>
+
+      <div class="mobile-nav-separator"></div>
+
+      <button id="mobile-theme-toggle" class="mobile-theme-btn" aria-label="Toggle Theme">
+        <i data-lucide="sun" class="sun-icon"></i>
+        <span>Toggle Theme</span>
+      </button>
+    </div>
+  </nav>
 
   <div class="smooth-scroll-wrapper">
     <!-- Hero Section -->
@@ -83,8 +84,7 @@
         <div class="hero-left">
           <p class="hero-greeting">Hello, I'm</p>
           <h1 class="hero-title">
-            <span class="hero-line">Juan Miguel</span>
-            <span class="hero-line">Repas</span>
+            <span class="hero-line magnetic">DEV.JMR</span>
           </h1>
           <p class="hero-subtitle">
             <span class="subtitle-text">Web Developer</span>
@@ -652,7 +652,8 @@
             <i data-lucide="volume-2" class="mute-icon-on"></i>
             <i data-lucide="volume-x" class="mute-icon-off" style="display:none;"></i>
           </button>
-          <button class="chatbot-close-header-btn" id="chatbot-close-header-btn" aria-label="Close Chat" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0.3rem; border-radius: 50%; transition: all 0.2s ease;">
+          <button class="chatbot-close-header-btn" id="chatbot-close-header-btn" aria-label="Close Chat"
+            style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0.3rem; border-radius: 50%; transition: all 0.2s ease;">
             <i data-lucide="x" style="width: 20px; height: 20px;"></i>
           </button>
         </div>
@@ -744,10 +745,7 @@
     </div>
   </div>
 
-  <!-- Scroll To Top Button -->
-  <button class="scroll-top-btn" id="scroll-top-btn" aria-label="Scroll to top">
-    <i data-lucide="arrow-up"></i>
-  </button>
+
 
   <script type="module" src="/src/main.js"></script>
 </body>
