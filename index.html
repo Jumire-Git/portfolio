@@ -647,10 +647,15 @@
           <h4>JARVIS</h4>
           <p>Online • AI Assistant</p>
         </div>
-        <button class="chatbot-mute-btn" id="chatbot-mute-btn" aria-label="Toggle sound" title="Toggle sound">
-          <i data-lucide="volume-2" class="mute-icon-on"></i>
-          <i data-lucide="volume-x" class="mute-icon-off" style="display:none;"></i>
-        </button>
+        <div class="chatbot-header-actions" style="margin-left: auto; display: flex; gap: 0.5rem;">
+          <button class="chatbot-mute-btn" id="chatbot-mute-btn" aria-label="Toggle sound" title="Toggle sound">
+            <i data-lucide="volume-2" class="mute-icon-on"></i>
+            <i data-lucide="volume-x" class="mute-icon-off" style="display:none;"></i>
+          </button>
+          <button class="chatbot-close-header-btn" id="chatbot-close-header-btn" aria-label="Close Chat" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0.3rem; border-radius: 50%; transition: all 0.2s ease;">
+            <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+          </button>
+        </div>
       </div>
 
       <div class="chatbot-messages" id="chatbot-messages" data-lenis-prevent>

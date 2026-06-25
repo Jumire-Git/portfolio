@@ -574,7 +574,15 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
   }
 
   // Toggle chatbot visibility
-  chatbotToggle.addEventListener('click', () => {
+  chatbotToggle.addEventListener('click', toggleChatbot);
+
+  // Header close button
+  const chatbotHeaderCloseBtn = document.getElementById('chatbot-close-header-btn');
+  if (chatbotHeaderCloseBtn) {
+    chatbotHeaderCloseBtn.addEventListener('click', toggleChatbot);
+  }
+
+  function toggleChatbot() {
     const isActive = chatbotWindow.classList.toggle('active');
     document.querySelector('.chatbot-widget').classList.toggle('active', isActive);
     if (isActive) {
@@ -599,7 +607,7 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
       contextMessageSent = false;
       hideSuggestions();
     }
-  });
+  }
 
 
   // Handle message send via form
