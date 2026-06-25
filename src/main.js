@@ -55,7 +55,7 @@ function animateAboutSection() {
   const words = document.querySelectorAll('.about-word');
   if (!words.length) return;
 
-  gsap.set(words, { opacity: 0, y: 30 });
+  gsap.set(words, { opacity: 0, y: 30, filter: 'blur(8px)' });
 
   const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 901;
   const endValue = isMobile ? '+=1000' : '+=1500';
@@ -75,6 +75,7 @@ function animateAboutSection() {
   tl.to(words, {
     opacity: 1,
     y: 0,
+    filter: 'blur(0px)',
     stagger: 0.1,
     ease: 'power2.out',
   }, 0);
@@ -517,7 +518,8 @@ const chatbotMessages = document.getElementById('chatbot-messages');
 const chatOpenIcon = document.querySelector('.chat-open-icon');
 const chatCloseIcon = document.querySelector('.chat-close-icon');
 const chatbotMuteBtn = document.getElementById('chatbot-mute-btn');
-const quickReplyChips = document.querySelectorAll('.quick-reply-chip');
+const suggestionsContainer = document.getElementById('chatbot-suggestions');
+const suggestionsRow = document.getElementById('suggestions-row');
 
 // --- Feature 4: Web Audio API sound effect ---
 let isMuted = false;
@@ -574,10 +576,14 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
   // Toggle chatbot visibility
   chatbotToggle.addEventListener('click', () => {
     const isActive = chatbotWindow.classList.toggle('active');
+    document.querySelector('.chatbot-widget').classList.toggle('active', isActive);
     if (isActive) {
       chatOpenIcon.style.display = 'none';
       chatCloseIcon.style.display = 'block';
-      setTimeout(() => chatbotInput.focus(), 300);
+      setTimeout(() => {
+        chatbotInput.focus();
+        showDefaultSuggestions(); // show starter suggestions
+      }, 350);
 
       // Feature 3: Send context message once per open session
       if (!contextMessageSent && currentSection && sectionContextMap[currentSection]) {
@@ -590,18 +596,11 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
     } else {
       chatOpenIcon.style.display = 'block';
       chatCloseIcon.style.display = 'none';
-      contextMessageSent = false; // Reset so the next open can show context again
+      contextMessageSent = false;
+      hideSuggestions();
     }
   });
 
-  // Feature 1: Quick-reply chip click handler
-  quickReplyChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      const query = chip.dataset.query;
-      if (!query) return;
-      sendMessage(query);
-    });
-  });
 
   // Handle message send via form
   chatbotForm.addEventListener('submit', (e) => {
@@ -614,8 +613,9 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
 
   // Feature 2: Centralized send function with dynamic typing delay
   function sendMessage(text) {
+    hideSuggestions(); // hide while thinking
     appendMessage(text, 'user');
-    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    chatbotMessages.scrollTo({ top: chatbotMessages.scrollHeight, behavior: 'smooth' });
 
     const typingBubble = appendTypingIndicator();
     const botResponse = getBotResponse(text);
@@ -628,7 +628,8 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
       appendMessage(botResponse, 'bot');
       playPopSound();
       if (typeof lucide !== 'undefined') lucide.createIcons();
-      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+      chatbotMessages.scrollTo({ top: chatbotMessages.scrollHeight, behavior: 'smooth' });
+      updateSuggestions(text); // show smart follow-ups
     }, delay);
   }
 
@@ -650,25 +651,105 @@ if (chatbotToggle && chatbotWindow && chatbotForm && chatbotInput && chatbotMess
     msgDiv.appendChild(contentDiv);
     msgDiv.appendChild(timeSpan);
     chatbotMessages.appendChild(msgDiv);
+    chatbotMessages.scrollTo({ top: chatbotMessages.scrollHeight, behavior: 'smooth' });
   }
 
   function appendTypingIndicator() {
     const msgDiv = document.createElement('div');
-    msgDiv.className = 'chat-message bot typing-indicator';
+    msgDiv.className = 'chat-message bot';
 
-    const contentDiv = document.createElement('div');
-    contentDiv.className = 'message-content';
-    contentDiv.innerHTML = `
-      <div class="typing-dots">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+    const indicator = document.createElement('div');
+    indicator.className = 'typing-indicator';
+    indicator.innerHTML = `
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
     `;
-    msgDiv.appendChild(contentDiv);
+
+    msgDiv.appendChild(indicator);
     chatbotMessages.appendChild(msgDiv);
-    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    chatbotMessages.scrollTo({ top: chatbotMessages.scrollHeight, behavior: 'smooth' });
     return msgDiv;
+  }
+
+  // Smart suggestion map: keyword → follow-up suggestions
+  const suggestionMap = [
+    {
+      keywords: ['project', 'work', 'portfolio', 'built', 'developed', 'apex', 'chef', 'gym', 'hr', 'booking'],
+      pills: ['How was APEX built?', 'What stack was used?', 'Is there a live demo?']
+    },
+    {
+      keywords: ['stack', 'skill', 'tech', 'language', 'framework', 'tool', 'react', 'node', 'php'],
+      pills: ['What frontend tools?', 'Backend experience?', 'Does he use AI tools?']
+    },
+    {
+      keywords: ['contact', 'hire', 'email', 'freelance', 'reach', 'message', 'available', 'availability'],
+      pills: ['What are his rates?', 'How long per project?', 'Is he remote-friendly?']
+    },
+    {
+      keywords: ['service', 'offer', 'speciali', 'provide'],
+      pills: ['Tell me about AI solutions', 'What is Tech VA?', 'Does he do UI/UX?']
+    },
+    {
+      keywords: ['rate', 'price', 'cost', 'budget', 'quote', 'fee'],
+      pills: ['How to get a quote?', 'What is his email?', 'How long does it take?']
+    },
+    {
+      keywords: ['experience', 'years', 'background', 'career', 'history'],
+      pills: ['View his projects', 'What are his skills?', 'Where is he based?']
+    },
+    {
+      keywords: ['ai', 'automation', 'gpt', 'llm', 'machine learning'],
+      pills: ['AI in his projects?', 'What AI tools?', 'Can he build chatbots?']
+    },
+    {
+      keywords: ['design', 'ui', 'ux', 'frontend', 'front-end'],
+      pills: ['See his portfolio', 'What tools for design?', 'Is he mobile-first?']
+    },
+    {
+      keywords: ['hello', 'hi', 'hey', 'greet', 'start'],
+      pills: ['Show me his projects', 'What are his skills?', 'How to contact him?']
+    },
+  ];
+
+  const defaultSuggestions = ['🚀 His projects', '⚙️ Tech stack', '📬 Contact him', '💼 Services'];
+
+  function updateSuggestions(lastInput) {
+    const normalized = lastInput.toLowerCase();
+    let pills = defaultSuggestions;
+
+    for (const entry of suggestionMap) {
+      if (entry.keywords.some(k => normalized.includes(k))) {
+        pills = entry.pills;
+        break;
+      }
+    }
+
+    suggestionsRow.innerHTML = '';
+    pills.forEach((text, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'suggestion-pill';
+      btn.textContent = text;
+      btn.style.animationDelay = `${i * 0.06}s`;
+      btn.addEventListener('click', () => {
+        chatbotInput.value = text;
+        hideSuggestions();
+        sendMessage(text);
+        chatbotInput.value = '';
+      });
+      suggestionsRow.appendChild(btn);
+    });
+
+    suggestionsContainer.classList.add('visible');
+  }
+
+  function hideSuggestions() {
+    suggestionsContainer.classList.remove('visible');
+  }
+
+  // Show default suggestions when chat opens
+  function showDefaultSuggestions() {
+    updateSuggestions('hello');
   }
 
   function getBotResponse(input) {
@@ -1164,7 +1245,7 @@ techCards.forEach(card => {
     // Prevent default tap behavior if you want to explicitly handle glow, 
     // but leave it natural for links/a tag wraps.
     const marquee = card.closest('.tech-marquee');
-    
+
     // Clear active/paused from all other cards/marquees
     document.querySelectorAll('.tech-card').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.tech-marquee').forEach(m => m.classList.remove('paused'));
@@ -1194,3 +1275,120 @@ document.addEventListener('touchstart', (e) => {
   }
 }, { passive: true });
 
+// ==========================================
+// Canvas Particle Mesh Network
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+  const canvas = document.getElementById('hero-particles');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+
+    const mouse = {
+      x: null,
+      y: null,
+      radius: 180
+    };
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+    });
+
+    window.addEventListener('mouseout', () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.8;
+        this.vy = (Math.random() - 0.5) * 0.8;
+        this.size = Math.random() * 2 + 1;
+        this.color = 'rgba(255, 255, 255, 0.4)';
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Bounce off edges
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+
+        // Mouse interaction
+        if (mouse.x != null) {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < mouse.radius) {
+            const forceDirectionX = dx / distance;
+            const forceDirectionY = dy / distance;
+            const force = (mouse.radius - distance) / mouse.radius;
+            // Particles gently repel from mouse
+            this.x -= forceDirectionX * force * 3;
+            this.y -= forceDirectionY * force * 3;
+          }
+        }
+      }
+
+      draw(particleColor) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = particleColor;
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      let numberOfParticles = Math.min((width * height) / 12000, 150); // limit for performance
+      for (let i = 0; i < numberOfParticles; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      const pColor = isLight ? 'rgba(0, 0, 0, 0.4)' : 'rgba(255, 255, 255, 0.4)';
+      const lColorRGB = isLight ? '0, 0, 0' : '255, 255, 255';
+
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw(pColor);
+
+        for (let j = i; j < particles.length; j++) {
+          let dx = particles[i].x - particles[j].x;
+          let dy = particles[i].y - particles[j].y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 150) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(${lColorRGB}, ${(1 - distance / 150) * 0.25})`;
+            ctx.lineWidth = 1;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animateParticles);
+    }
+
+    initParticles();
+    animateParticles();
+  }
+});

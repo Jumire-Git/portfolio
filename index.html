@@ -76,9 +76,9 @@
   <div class="smooth-scroll-wrapper">
     <!-- Hero Section -->
     <section class="hero" id="home">
-      <div class="hero-bg-glow">
-        <img src="/hero_image.png" alt="" class="hero-glow-img" />
-      </div>
+      <!-- Canvas Particle Mesh -->
+      <canvas id="hero-particles"></canvas>
+      <div class="hero-bg-glow"></div>
       <div class="hero-content">
         <div class="hero-left">
           <p class="hero-greeting">Hello, I'm</p>
@@ -87,9 +87,9 @@
             <span class="hero-line">Repas</span>
           </h1>
           <p class="hero-subtitle">
-            <span class="subtitle-text">Front-End Developer</span>
+            <span class="subtitle-text">Web Developer</span>
             <span class="subtitle-divider">|</span>
-            <span class="subtitle-text">Tech VA</span>
+            <span class="subtitle-text">Virtual Assistant</span>
             <span class="subtitle-divider">|</span>
             <span class="subtitle-text">AI Solutions</span>
           </p>
@@ -99,13 +99,6 @@
             <a href="/resume.pdf" download="Juan_Miguel_Repas_Resume.pdf" class="magnetic hero-cta-secondary">
               Download Resume
             </a>
-          </div>
-        </div>
-        <div class="hero-right">
-          <div class="hero-photo-wrapper">
-            <div class="hero-photo-ring"></div>
-            <div class="hero-photo-ring hero-photo-ring-2"></div>
-            <img src="/profile.jpg" alt="Juan Miguel Repas" class="hero-photo" />
           </div>
         </div>
       </div>
@@ -138,24 +131,48 @@
           </div>
         </div>
 
+        <!-- Cyber Grid BG: starts BELOW the headline -->
+        <div class="about-cyber-bg" aria-hidden="true"></div>
+
         <!-- Bio Row -->
         <div class="about-bio-row">
           <div class="about-bio-text">
             <p class="about-label">ABOUT ME</p>
             <h2 class="about-bio-heading">I craft <span class="text-highlight">digital experiences</span> that perform.
             </h2>
+
             <p class="about-text">
-              I'm a passionate <span class="text-highlight">Front-End Developer</span> and <span
-                class="text-highlight">Tech VA</span> from the Philippines who
-              transforms ideas into polished digital products. With a strong foundation in
-              <span class="text-highlight">web development</span>, <span class="text-highlight">UI/UX design</span>,
-              and <span class="text-highlight">AI integrations</span>, I build applications that are not only visually
-              stunning but also fast, responsive, and highly functional.
+              Started with a blank HTML file and a burning curiosity — <span class="text-highlight">can I make this look
+                amazing?</span>
+              A few years later, that curiosity turned into a career. I'm a <span class="text-highlight">Web
+                Developer</span>
+              and <span class="text-highlight">Tech VA</span> from the Philippines who transforms ideas into polished
+              digital products.
             </p>
             <p class="about-text" style="margin-top: 1.2rem;">
-              Whether it's crafting a brand-new website, automating workflows with AI, or providing
-              reliable tech virtual assistance — I bring dedication, creativity, and precision to every project.
+              With a strong foundation in <span class="text-highlight">web development</span>,
+              <span class="text-highlight">UI/UX design</span>, and <span class="text-highlight">AI integrations</span>
+              —
+              I build apps that are not just visually stunning but fast, responsive, and highly functional.
             </p>
+
+            <!-- Passion / Interest Tags -->
+            <div class="about-passion-tags">
+              <span class="passion-tag"><i data-lucide="layout-dashboard"></i> UI / UX</span>
+              <span class="passion-tag"><i data-lucide="bot"></i> AI Tools</span>
+              <span class="passion-tag"><i data-lucide="smartphone"></i> Mobile-First</span>
+              <span class="passion-tag"><i data-lucide="git-branch"></i> Open Source</span>
+              <span class="passion-tag"><i data-lucide="trending-up"></i> Performance</span>
+            </div>
+
+            <!-- Currently strip -->
+            <div class="about-currently">
+              <span class="currently-label">Currently</span>
+              <span class="currently-item"><i data-lucide="book-open"></i> Learning advanced animations</span>
+              <span class="currently-divider">·</span>
+              <span class="currently-item"><i data-lucide="briefcase"></i> Open to new projects</span>
+            </div>
+
             <div class="about-bio-cta">
               <a href="#contact" class="magnetic about-cta-btn">Let's Work Together</a>
               <a href="/resume.pdf" download="Juan_Miguel_Repas_Resume.pdf" class="magnetic about-cta-outline">Download
@@ -184,7 +201,14 @@
             <div class="stat-number-wrap">
               <span class="stat-number" data-target="14">0</span><span class="stat-plus">+</span>
             </div>
-            <span class="stat-label">Technologies</span>
+            <span class="stat-label">Tools Mastered</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-number-wrap">
+              <span class="stat-number" data-target="5">0</span><span class="stat-plus">+</span>
+            </div>
+            <span class="stat-label">Happy Clients</span>
           </div>
         </div>
 
@@ -601,15 +625,22 @@
   <!-- Chatbot Widget -->
   <div class="chatbot-widget">
     <button class="chatbot-toggle magnetic" id="chatbot-toggle-btn" aria-label="Chat with AI Clone">
-      <i data-lucide="message-square" class="chat-open-icon"></i>
-      <i data-lucide="x" class="chat-close-icon" style="display: none;"></i>
+      <div class="chatbot-orb-container chat-open-icon">
+        <div class="chatbot-orb"></div>
+        <div class="chatbot-orb-ring"></div>
+      </div>
+      <i data-lucide="x" class="chat-close-icon"
+        style="display: none; color: var(--text-primary); position: absolute;"></i>
       <span class="chat-badge">AI</span>
     </button>
 
     <div class="chatbot-window" id="chatbot-window">
       <div class="chatbot-header">
         <div class="chatbot-avatar-wrapper">
-          <div class="chatbot-avatar">JR</div>
+          <div class="chatbot-orb-container">
+            <div class="chatbot-orb"></div>
+            <div class="chatbot-orb-ring"></div>
+          </div>
           <span class="online-indicator"></span>
         </div>
         <div class="chatbot-header-info">
@@ -632,22 +663,15 @@
         </div>
       </div>
 
-      <!-- Quick Reply Chips -->
-      <div class="chatbot-quick-replies" id="chatbot-quick-replies">
-        <div class="chips-row">
-          <button class="quick-reply-chip" data-query="Tell me about his projects">🚀 Projects</button>
-          <button class="quick-reply-chip" data-query="What is his tech stack?">⚙️ Tech Stack</button>
-          <button class="quick-reply-chip" data-query="How can I contact Juan?">📬 Contact</button>
-        </div>
-        <div class="chips-row">
-          <button class="quick-reply-chip" data-query="What services does he offer?">💼 Services</button>
-          <button class="quick-reply-chip" data-query="Is he available for freelance?">✅ Availability</button>
-          <button class="quick-reply-chip magic-chip" data-query="magic word">✨ Magic Word</button>
-        </div>
+
+      <!-- Smart Suggestions -->
+      <div class="chatbot-suggestions" id="chatbot-suggestions">
+        <div class="suggestions-row" id="suggestions-row"></div>
       </div>
 
       <form class="chatbot-input-area" id="chatbot-form">
-        <input type="text" id="chatbot-input" placeholder="Ask about projects, skills..." autocomplete="off" required />
+        <input type="text" id="chatbot-input" placeholder="Ask about projects, skills, rates..." autocomplete="off"
+          required />
         <button type="submit" class="chatbot-send-btn" aria-label="Send Message">
           <i data-lucide="send"></i>
         </button>
@@ -720,6 +744,7 @@
     <i data-lucide="arrow-up"></i>
   </button>
 
+  <script type="module" src="/src/main.js"></script>
 </body>
 
 </html>
